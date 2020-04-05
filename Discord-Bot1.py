@@ -1,6 +1,6 @@
 ###################################################################################
 #Using the brilliant API that I could only hope to call my own
-#https://fifteen.ai/
+#>>>>>>>>>>>>>>>>https://fifteen.ai/<<<<<<<<<<<<<<<<<<<<
 ###################################################################################
 
 # bot.py
@@ -9,6 +9,10 @@ import os
 import random
 import requests
 import discord
+
+#[characher name, phrase to catch, characters to remove, type of response]
+request_info=[["GlaDOS","hey glados, say" , 15, 0],["Twilight Sparkle","hey twi, say" , 12, 0],["Twilight Sparkle","hey purps, say" , 13, 0],["Twilight Sparkle","hey twilight, say" , 17, 0],["Twilight Sparkle","hey twiggles, say" , 17, 0],["Twilight Sparkle","hey twiggle piggle, say" , 23, 0],["Wheatley","hey wheatley, say" , 17, 0],["The Narrator","hey narrator, say" , 17, 0],["Tenth Doctor","hey doc, say" , 12, 0],["Tenth Doctor","hey doctor, say" , 15, 0],["Soldier","hey soldier, say" , 16, 0],["Soldier","hey soli, say" , 13, 0],["Sans","hey sans, say" , 13, 0],["Fluttershy","hey fluttershy, say" , 19, 0],["Fluttershy","hey shy, say" , 12, 0],["Fluttershy","hey flutters, say" , 17, 0],["Fluttershy","hey flutterbutter, say" , 22, 0],["Fluttershy","hey fluttershush, say" , 21, 0],["Fluttershy","hey butter shush, say" , 20, 0],["Fluttershy","hey flutter butter, say" , 22, 0],["Fluttershy","hey flutter shush, say" , 21, 0],["Fluttershy","hey butter shush, say" , 20, 0],["Rarity","hey rarity, say" , 15, 0],["Rarity","hey darling, say" , 16, 0],["Rarity","hey white ranger, say" , 21, 0],["Applejack","hey applejack, say" , 18, 0],["Applejack","hey apples, say" , 15, 0],["Applejack","hey applez, say" , 15, 0],["Applejack","hey jackapple, say" , 18, 0],["Applejack","hey aj, say", 11, 0],["Rainbow Dash","hey rainbow dash, say" , 21, 0],["Rainbow Dash","hey dash, say" , 13, 0],["Rainbow Dash","hey dashie, say" , 15, 0],["Rainbow Dash","hey rd, say" , 15, 0],["Pinkie Pie","hey pinkie pie, say" , 19, 0],["Pinkie Pie","hey pinkie, say" , 15, 0],["Pinkie Pie","hey ponka pie, say" , 18, 0],["Pinkie Pie","hey pinker ponk, say" , 20, 0],["Princess Celestia","hey princess celestia, say" , 26, 0],["Princess Celestia","hey princess, say" , 17, 0],["Princess Celestia","hey sunbutt, say" , 16, 0],["Princess Celestia","hey sun butt, say" , 17, 0],["Princess Celestia","hey tia, say" , 12, 0],["Princess Celestia","tia, say" , 8, 1]]
+
 
 #Setting the fifteen.ai post request headers
 headers = {
@@ -26,7 +30,7 @@ headers = {
             'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
         }
 
-#
+#Establishes client connection
 client = discord.Client()
 
 
@@ -40,181 +44,69 @@ async def on_ready():
 async def on_message(message):
     if message.author == client.user:
         return
-####
-#GlaDOS
-####
 
-    #Responding if the client says the phrases below 
-    if message.content.startswith( 'hey glados, say' ) or message.content.startswith('hey GlaDOS, say') or message.content.startswith('hey Glados, say') or message.content.startswith('hey GlaDos, say'):
-        ####
-        #Change username - could also add 
-        #await message.author.edit(nick="some new nick")
-        ####
+    #Itterating through
+    i = -1
+    while i < 43:
+        i = i + 1
+        #print(i)
+        #print(request_info[i][1])
+        if message.content.startswith(request_info[i][1]):
+            #print(request_info[i][3])
+            if request_info[i][3] == 0:
+                #Stripping the start of the message to put the rest into the request "text" section
+                Tobesaid = message.content[request_info[i][2] + 1:]
 
-        #Stripping the start of the message to put the rest into the request "text" section
-        Tobesaid = message.content[16:]
-        print(Tobesaid)
+                print(request_info[i][0]+" says: "+Tobesaid)
 
-        #Making the data section of the request
-        data = '{"text":"%s","character":"GLaDOS"}' % (Tobesaid)
+                #Making the data section of the request
+                data = '{"text":"%s","character":"%s"}' % (Tobesaid, request_info[i][0])
 
-        #Debug print that shows the data section (makes sure the correct sting is passed)
-        #print(data)
+                #Debug print that shows the data section (makes sure the correct sting is passed)
+                #print(data)
 
-        #Constructing the request, passing in the headers and the data
-        response = requests.post('https://api.fifteen.ai/app/getAudioFile', headers=headers, data=data)       
-
-        #Checking if the api responds with a 500/ server error message
-        if('server error' in response.text):
-            print('error!')
-            await message.channel.send('Something went wrong!')
-        else:
-            #Posting the response 
-            with open('test1.wav', 'wb') as file:
-                file.write(response.content)
-            #Text to be entered with image \/  Image being specified \/
-            await message.channel.send('Test',file=discord.File('test1.wav'))
-
-            #Debug checking status code of response (403 may mean there will need to be a change to the request)
-            #await message.channel.send(response.status_code)
-
-            #Removing the file once it has been posted
-            os.remove("test1.wav")
-            #print("File Removed!")
-
-
-####
-#(MLP)Twilight sparkle 
-####
-
+                #Constructing the request, passing in the headers and the data
+                response = requests.post('https://api.fifteen.ai/app/getAudioFile', headers=headers, data=data)       
             
-    #Responding if the client says the phrases below
-    elif message.content.startswith('hey twi, say') or message.content.startswith('hey purps, say') or message.content.startswith('hey twilight, say') or message.content.startswith('hey twiggles, say') or message.content.startswith('hey twiggle piggle, say') or message.content.startswith('Hey twi, say') or message.content.startswith('Hey purps, say') or message.content.startswith('Hey twilight, say') or message.content.startswith('Hey twiggles, say') or message.content.startswith('Hey twiggle piggle, say'):
-        #"bool" to validate the below bit
-        msgbool = 'f'
-        #Stripping the start of the message to put the rest into the request
-        #(due to the differnt sizes of string, there needs to be differnt amounts of "striping" done)
-        #Make sure if there are any names that could be in names e.g twi in twilight. It doesn't like that
-        if('purps' in message.content[0:13]):
-            Tobesaid = message.content[14:]
-            print(Tobesaid)
-            msgbool = 't'
-        elif('twiggles' in message.content[0:17]):
-            Tobesaid = message.content[18:]
-            print(Tobesaid)
-            msgbool = 't'
-        elif('twilight' in message.content[0:17]):
-            Tobesaid = message.content[18:]
-            print(Tobesaid)
-            msgbool = 't'
-        elif('twiggle piggle' in message.content[0:23]):
-            Tobesaid = message.content[24:]
-            print(Tobesaid)
-            msgbool = 't'
-        elif('twi' in message.content[0:12]):
-            Tobesaid = message.content[13:]
-            print(Tobesaid)
-            msgbool = 't'
-        else:
-            print('error')
+                #Checking if the api responds with a 500/ server error message
+                if('server error' in response.text):
+                    print('error!')
+                    await message.channel.send('Something went wrong!')
+                    break
+                else:
+                    #Posting the response 
+                    with open('test1.wav', 'wb') as file:
+                        file.write(response.content)
+                    #Text to be entered with image \/  Image being specified \/
+                    await message.channel.send('Test',file=discord.File('test1.wav'))
 
-        #print(msgbool)
-        #validating if the message managed to parse the message
-        if(msgbool == 't'):
+                    #Debug checking status code of response (403 may mean there will need to be a change to the request)
+                    #await message.channel.send(response.status_code)
 
-            #Making the data section of the request
-            data = '{"text":"%s","character":"Twilight Sparkle"}' % (Tobesaid)
-            
-            #"debug" print of the above
-            #print(data)
-
-            #Constructing the request, passing in the headers and the data
-            response = requests.post('https://api.fifteen.ai/app/getAudioFile', headers=headers, data=data)       
-
-            #Checking if the api responds with a 500/ server error message
-            if('server error' in response.text):
-                print('error!')
-                await message.channel.send('Something went wrong!')
-            #Posting the response
+                    #Removing the file once it has been posted
+                    os.remove("test1.wav")
+                    #print("File Removed!")
+                    break
+            elif request_info[i][3] == 1:            
+                await message.channel.send("boop")
             else:
-                with open('test1.wav', 'wb') as file:
-                    file.write(response.content)
-                await message.channel.send('Test',file=discord.File('test1.wav'))
-                #await message.channel.send(response.status_code)
-                os.remove("test1.wav")
-                #print("File Removed!")     
-        else:
-             #Showing that the parsing of the strings didnt work
-             await message.channel.send('There was an error with this dumbasses code!')
-        
-####
-#
-####
-
-    elif message.content.startswith('hey twi, say') or message.content.startswith('hey purps, say'):
-        #"bool" to validate the below bit
-        msgbool = 'f'
-        #Stripping the start of the message to put the rest into the request
-        #(due to the differnt sizes of string, there needs to be differnt amounts of "striping" done)
-        #Make sure if there are any names that could be in names e.g twi in twilight. It doesn't like that
-        if('purps' in message.content[0:13]):
-            Tobesaid = message.content[14:]
-            print(Tobesaid)
-            msgbool = 't'
-        elif('twiggles' in message.content[0:17]):
-            Tobesaid = message.content[18:]
-            print(Tobesaid)
-            msgbool = 't'
-        elif('twilight' in message.content[0:17]):
-            Tobesaid = message.content[18:]
-            print(Tobesaid)
-            msgbool = 't'
-        elif('twiggle piggle' in message.content[0:23]):
-            Tobesaid = message.content[24:]
-            print(Tobesaid)
-            msgbool = 't'
-        elif('twi' in message.content[0:12]):
-            Tobesaid = message.content[13:]
-            print(Tobesaid)
-            msgbool = 't'
-        else:
-            print('error')
-
-        #print(msgbool)
-        #validating if the message managed to parse the message
-        if(msgbool == 't'):
-
-            #Making the data section of the request
-            data = '{"text":"%s","character":"Twilight Sparkle"}' % (Tobesaid)
-            
-            #"debug" print of the above
-            #print(data)
-
-            #Constructing the request, passing in the headers and the data
-            response = requests.post('https://api.fifteen.ai/app/getAudioFile', headers=headers, data=data)       
-
-            #Checking if the api responds with a 500/ server error message
-            if('server error' in response.text):
-                print('error!')
-                await message.channel.send('Something went wrong!')
-            #Posting the response
-            else:
-                with open('test1.wav', 'wb') as file:
-                    file.write(response.content)
-                await message.channel.send('Test',file=discord.File('test1.wav'))
-                #await message.channel.send(response.status_code)
-                os.remove("test1.wav")
-                #print("File Removed!")     
-        else:
-             #Showing that the parsing of the strings didnt work
-             await message.channel.send('There was an error with this dumbasses code!')
-
-    #Catching exceptions thrown by discord
-    elif message.content == 'raise-exception':
-        raise discord.DiscordException
-
+                print("boop")
 
 #Running the script through the bot
-client.run('Token')
+client.run('Njk1MzM4NTQ2MDY3ODAwMTM1.Xok0cw.HeBpICdlfeoKO6HT59O6uLw0O_Y')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
