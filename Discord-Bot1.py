@@ -215,6 +215,6 @@ async def on_message(message):
 
 
 #Running the script through the bot
-client.run('Njk1MzM4NTQ2MDY3ODAwMTM1.Xod5Hw.KBBi0er7UmpbejGkViAaldRsQOQ')
+client.run('')
 
 
