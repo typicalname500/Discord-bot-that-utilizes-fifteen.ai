@@ -215,6 +215,6 @@ async def on_message(message):
 
 
 #Running the script through the bot
-client.run('')
+client.run('Token')
 
 
