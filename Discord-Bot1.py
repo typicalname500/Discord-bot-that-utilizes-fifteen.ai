@@ -93,7 +93,7 @@ async def on_message(message):
                 print("boop")
 
 #Running the script through the bot
-client.run('Njk1MzM4NTQ2MDY3ODAwMTM1.Xok0cw.HeBpICdlfeoKO6HT59O6uLw0O_Y')
+client.run('Token')
 
 
 
