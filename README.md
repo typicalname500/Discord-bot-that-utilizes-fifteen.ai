@@ -1,10 +1,10 @@
 # Discord-bot-that-utilizes-fifteen.ai
 This is a python discord bot that utilises POST requests made to https://fifteen.ai/app/getAudioFile which responds with wav files that are posted onto the server.
 
-#Note
+# Note
 I haven't programmed in python in over 5 years. Expect to see some "what, why? Just, why" tier coding being done.
 
-What commands I will probalby try to do:
+# What commands I will probalby try to do:
 
 [Currently being worked on] "Hey x, say y"
 
@@ -20,6 +20,6 @@ Example Hey GlaDOS, tell me what you learned about the Spanish inquisition? http
 [To be done] Again if its ok to do so I may look into using some things from https://www.microsoft.com/en-us/ai/ai-lab
 
 
-#For the love of God, don't missuse this in a stupid way. Please.
+# For the love of God, don't missuse this in a stupid way. Please.
 
 
