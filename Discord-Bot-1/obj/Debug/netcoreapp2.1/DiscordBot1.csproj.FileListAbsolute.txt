@@ -1,0 +1,22 @@
+C:\Users\Tom\source\repos\Discord-Bot-1\bin\Debug\netcoreapp2.1\DiscordBot1.deps.json
+C:\Users\Tom\source\repos\Discord-Bot-1\bin\Debug\netcoreapp2.1\DiscordBot1.runtimeconfig.json
+C:\Users\Tom\source\repos\Discord-Bot-1\bin\Debug\netcoreapp2.1\DiscordBot1.runtimeconfig.dev.json
+C:\Users\Tom\source\repos\Discord-Bot-1\bin\Debug\netcoreapp2.1\DiscordBot1.dll
+C:\Users\Tom\source\repos\Discord-Bot-1\bin\Debug\netcoreapp2.1\DiscordBot1.pdb
+C:\Users\Tom\source\repos\Discord-Bot-1\obj\Debug\netcoreapp2.1\DiscordBot1.csprojAssemblyReference.cache
+C:\Users\Tom\source\repos\Discord-Bot-1\obj\Debug\netcoreapp2.1\DiscordBot1.csproj.CoreCompileInputs.cache
+C:\Users\Tom\source\repos\Discord-Bot-1\obj\Debug\netcoreapp2.1\DiscordBot1.AssemblyInfoInputs.cache
+C:\Users\Tom\source\repos\Discord-Bot-1\obj\Debug\netcoreapp2.1\DiscordBot1.AssemblyInfo.cs
+C:\Users\Tom\source\repos\Discord-Bot-1\obj\Debug\netcoreapp2.1\DiscordBot1.dll
+C:\Users\Tom\source\repos\Discord-Bot-1\obj\Debug\netcoreapp2.1\DiscordBot1.pdb
+C:\Users\Tom\source\repos\Discord-Bot-1 - Copy\bin\Debug\netcoreapp2.1\DiscordBot1.deps.json
+C:\Users\Tom\source\repos\Discord-Bot-1 - Copy\bin\Debug\netcoreapp2.1\DiscordBot1.runtimeconfig.json
+C:\Users\Tom\source\repos\Discord-Bot-1 - Copy\bin\Debug\netcoreapp2.1\DiscordBot1.runtimeconfig.dev.json
+C:\Users\Tom\source\repos\Discord-Bot-1 - Copy\bin\Debug\netcoreapp2.1\DiscordBot1.dll
+C:\Users\Tom\source\repos\Discord-Bot-1 - Copy\bin\Debug\netcoreapp2.1\DiscordBot1.pdb
+C:\Users\Tom\source\repos\Discord-Bot-1 - Copy\obj\Debug\netcoreapp2.1\DiscordBot1.csprojAssemblyReference.cache
+C:\Users\Tom\source\repos\Discord-Bot-1 - Copy\obj\Debug\netcoreapp2.1\DiscordBot1.csproj.CoreCompileInputs.cache
+C:\Users\Tom\source\repos\Discord-Bot-1 - Copy\obj\Debug\netcoreapp2.1\DiscordBot1.AssemblyInfoInputs.cache
+C:\Users\Tom\source\repos\Discord-Bot-1 - Copy\obj\Debug\netcoreapp2.1\DiscordBot1.AssemblyInfo.cs
+C:\Users\Tom\source\repos\Discord-Bot-1 - Copy\obj\Debug\netcoreapp2.1\DiscordBot1.dll
+C:\Users\Tom\source\repos\Discord-Bot-1 - Copy\obj\Debug\netcoreapp2.1\DiscordBot1.pdb
