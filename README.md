@@ -4,7 +4,7 @@ This is a python discord bot that utilises POST requests made to https://fifteen
 # Note
 I haven't programmed in python in over 5 years. Expect to see some "what, why? Just, why" tier coding being done.
 
-# What commands I will probalby try to do:
+# What commands I will probably try to do:
 
 [Currently being worked on] "Hey x, say y"
 
