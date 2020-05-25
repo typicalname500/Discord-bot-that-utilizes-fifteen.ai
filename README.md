@@ -1,16 +1,15 @@
-# Current state: C# now working! Python still needs fixed
+# Current state: Now working! Not all characters are functional
+
+### Use branches to download the right language of bot to use
 
 # Discord-bot-that-utilizes-fifteen.ai
 This is a python discord bot that utilises POST requests made to https://fifteen.ai/app/getAudioFile which responds with wav files that are posted onto the server.
 
-# Note
-I haven't programmed in python in over 5 years. Expect to see some "what, why? Just, why" tier coding being done.
-
 # What commands I will probalby try to do:
 
-[Currently being worked on] "Hey x, say y"
+[Currently working] "Hey x, say y" 
 
-[To be done] "Hey x, tell me about" (retreives a section of a wikipedia page and says it)
+[Currently working] "Hey x, tell me about" (retreives a section of a wikipedia page and says it)
 
 [To be done] "Hey x, [question] Text/ link to text/pdf link" 
 Example Hey GlaDOS, tell me what you learned about the Spanish inquisition? https://en.wikipedia.org/wiki/Spanish_Inquisition
