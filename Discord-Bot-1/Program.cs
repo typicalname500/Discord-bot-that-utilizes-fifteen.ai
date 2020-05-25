@@ -184,8 +184,6 @@ namespace DiscordBot1
 
         public Program()
         {
-            Request req = new Request();
-            Console.WriteLine("GETLENGTH: " + req.Characterinfo.GetLength(0));
             _client = new DiscordSocketClient();
 
             //Hook into log event and write it out to the console
@@ -206,8 +204,7 @@ namespace DiscordBot1
 
         public async Task MainAsync()
         {
-            //This is where we get the Token value from the configuration file
-            Console.WriteLine(_config["Token"]);
+            //This is where we get the Token value from the configuration file           
             await _client.LoginAsync(TokenType.Bot, _config["Token"]);
             await _client.StartAsync();
 
