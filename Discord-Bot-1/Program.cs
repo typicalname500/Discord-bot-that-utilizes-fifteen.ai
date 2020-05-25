@@ -19,6 +19,10 @@ using System.Net;
 using System.IO;
 //using System.Text.Json;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Text;
+using System.Collections.Specialized;
+using System.Web;
 
 namespace DiscordBot1
 {
@@ -30,38 +34,40 @@ namespace DiscordBot1
         //Currently 4 by 13
         //hey x say y
         public string[,] Characterinfo =  {
-        {"GLaDOS","hey glados, say" , "0"},
-        {"Twilight Sparkle","hey twi, say" , "0"},{"Twilight Sparkle","hey purps, say" , "0"},{"Twilight Sparkle","hey twilight, say" , "0"},{"Twilight Sparkle","hey twiggles, say" , "0"},{"Twilight Sparkle","hey twiggle piggle, say", "0"},
-        {"Wheatley","hey wheatley, say" , "0"},
-        {"The Narrator","hey narrator, say" , "0"},
-        {"Tenth Doctor","hey doc, say" , "0"},{"Tenth Doctor","hey doctor, say" , "0"},
-        {"Soldier","hey soldier, say" , "0"},{"Soldier","hey soli, say" , "0"},
-        {"Sans","hey sans, say" , "0"},
-        {"Fluttershy","hey fluttershy, say" , "0"},{"Fluttershy","hey shy, say" , "0"},{"Fluttershy","hey flutters, say" , "0"},{"Fluttershy","hey flutterbutter, say" , "0"},{"Fluttershy","hey fluttershush, say" , "0"},{"Fluttershy","hey butter shush, say", "0"},{"Fluttershy","hey flutter butter, say" , "0"},{"Fluttershy","hey flutter shush, say" , "0"},{"Fluttershy","hey butter shush, say", "0"},
-        {"Rarity","hey rarity, say" , "0"},{"Rarity","hey darling, say" , "0"},{"Rarity","hey white ranger, say" , "0"},
-        {"Applejack","hey applejack, say" , "0"},{"Applejack","hey apples, say" , "0"},{"Applejack","hey applez, say" , "0"},{"Applejack","hey jackapple, say" , "0"},{"Applejack","hey aj, say", "0"},
-        {"Rainbow Dash","hey rainbow dash, say" , "0"},{"Rainbow Dash","hey dash, say" , "0"},{"Rainbow Dash","hey dashie, say" , "0"},{"Rainbow Dash","hey rd, say" , "0"},
-        {"Pinkie Pie","hey pinkie pie, say" , "0"},{"Pinkie Pie","hey pinkie, say" , "0"},{"Pinkie Pie","hey ponka pie, say" , "0"},{"Pinkie Pie","hey pinker ponk, say", "0"},
-        {"Princess Celestia","hey princess celestia, say" , "0"},{"Princess Celestia","hey princess, say" , "0"},{"Princess Celestia","hey sunbutt, say" , "0"},{"Princess Celestia","hey sun butt, say" , "0"},{"Princess Celestia","hey tia, say" , "0"},{"Princess Celestia","tia, say", "1"},
+        {"GLaDOS","hey glados, say" , "0", "Neutral"},
+        {"Twilight Sparkle","hey twi, say" , "0", "Neutral"},{"Twilight Sparkle","hey purps, say" , "0", "Neutral"},{"Twilight Sparkle","hey twilight, say" , "0", "Neutral"},{"Twilight Sparkle","hey twiggles, say" , "0", "Neutral"},{"Twilight Sparkle","hey twiggle piggle, say", "0", "Neutral"},
+        {"Twilight Sparkle","hey twi, happily say" , "0", "Happy"},{"Twilight Sparkle","hey purps, happily say" , "0", "Happy"},{"Twilight Sparkle","hey twilight, happily say" , "0", "Happy"},{"Twilight Sparkle","hey twiggles, happily say" , "0", "Happy"},{"Twilight Sparkle","hey twiggle piggle, happily say", "0", "Happy"},
+        {"Wheatley","hey wheatley, say" , "0", "Neutral"},
+        {"The Narrator","hey narrator, say" , "0", "Neutral"},
+        {"Tenth Doctor","hey doc, say" , "0", "Neutral"},{"Tenth Doctor","hey doctor, say" , "0", "Neutral"},
+        {"Soldier","hey soldier, say" , "0", "Neutral"},{"Soldier","hey soli, say" , "0", "Neutral"},
+        {"Sans","hey sans, say" , "0", "Neutral"},
+        {"Fluttershy","hey fluttershy, say" , "0", "Neutral"},{"Fluttershy","hey shy, say" , "0", "Neutral"},{"Fluttershy","hey flutters, say" , "0", "Neutral"},{"Fluttershy","hey flutterbutter, say" , "0", "Neutral"},{"Fluttershy","hey fluttershush, say" , "0", "Neutral"},{"Fluttershy","hey butter shush, say", "0", "Neutral"},{"Fluttershy","hey flutter butter, say" , "0", "Neutral"},{"Fluttershy","hey flutter shush, say" , "0", "Neutral"},{"Fluttershy","hey butter shush, say", "0", "Neutral"},
+        {"Rarity","hey rarity, say" , "0", "Neutral"},{"Rarity","hey darling, say" , "0", "Neutral"},{"Rarity","hey white ranger, say" , "0", "Neutral"},
+        {"Applejack","hey applejack, say" , "0", "Neutral"},{"Applejack","hey apples, say" , "0", "Neutral"},{"Applejack","hey applez, say" , "0", "Neutral"},{"Applejack","hey jackapple, say" , "0", "Neutral"},{"Applejack","hey aj, say", "0", "Neutral"},
+        {"Rainbow Dash","hey rainbow dash, say" , "0", "Neutral"},{"Rainbow Dash","hey dash, say" , "0", "Neutral"},{"Rainbow Dash","hey dashie, say" , "0", "Neutral"},{"Rainbow Dash","hey rd, say" , "0", "Neutral"},
+        {"Pinkie Pie","hey pinkie pie, say" , "0", "Neutral"},{"Pinkie Pie","hey pinkie, say" , "0", "Neutral"},{"Pinkie Pie","hey ponka pie, say" , "0", "Neutral"},{"Pinkie Pie","hey pinker ponk, say", "0", "Neutral"},
+        {"Announcer","announcer! say","0","Neutral"},
+        /*{"Princess Celestia","hey princess celestia, say" , "0", "Neutral"},{"Princess Celestia","hey princess, say" , "0", "Neutral"},{"Princess Celestia","hey sunbutt, say" , "0", "Neutral"},{"Princess Celestia","hey sun butt, say" , "0", "Neutral"},{"Princess Celestia","hey tia, say" , "0", "Neutral"} ,{"Princess Celestia","tia, say", "0", "Neutral"},*/
         //"Tell me about"
-        {"GlaDOS","hey glados, tell me about", "1"},
-        {"Twilight Sparkle","hey twi, tell me about", "1"},{"Twilight Sparkle","hey purps, tell me about", "1"},{"Twilight Sparkle","hey twilight, tell me about", "1"},{"Twilight Sparkle","hey twiggles, tell me about", "1"},{"Twilight Sparkle","hey twiggle piggle, tell me about", "1"},
-        {"Wheatley","hey wheatley, tell me about", "1"},
-        {"The Narrator","hey narrator, tell me about", "1"},
-        {"Tenth Doctor","hey doc, tell me about", "1"},{"Tenth Doctor","hey doctor, tell me about", "1"},
-        {"Soldier","hey soldier, tell me about", "1"},{"Soldier","hey soli, tell me about", "1"},
-        {"Sans","hey sans, tell me about", "1"},
-        {"Fluttershy","hey fluttershy, tell me about", "1"},{"Fluttershy","hey shy, tell me about", "1"},{"Fluttershy","hey flutters, tell me about", "1"},{"Fluttershy","hey flutterbutter, tell me about", "1"},{"Fluttershy","hey fluttershush, tell me about", "1"},{"Fluttershy","hey butter shush, tell me about", "1"},{"Fluttershy","hey flutter butter, tell me about", "1"},{"Fluttershy","hey flutter shush, tell me about", "1"},{"Fluttershy","hey butter shush, tell me about", "1"},
-        {"Rarity","hey rarity, tell me about", "1"},{"Rarity","hey darling, tell me about", "1"},{"Rarity","hey white ranger, tell me about", "1"},
-        {"Applejack","hey applejack, tell me about", "1"},{"Applejack","hey apples, tell me about", "1"},{"Applejack","hey applez, tell me about", "1"},{"Applejack","hey jackapple, tell me about", "1"},{"Applejack","hey aj, tell me about", "1"},
-        {"Rainbow Dash","hey rainbow dash, tell me about", "1"},{"Rainbow Dash","hey dash, tell me about", "1"},{"Rainbow Dash","hey dashie, tell me about", "1"},{"Rainbow Dash","hey rd, tell me about", "1"},
-        {"Pinkie Pie","hey pinkie pie, tell me about", "1"},{"Pinkie Pie","hey pinkie, tell me about", "1"},{"Pinkie Pie","hey ponka pie, tell me about", "1"},{"Pinkie Pie","hey pinker ponk, tell me about", "1"},
-        {"Princess Celestia","hey princess celestia, tell me about", "1"},{"Princess Celestia","hey princess, tell me about", "1"},{"Princess Celestia","hey sunbutt, tell me about", "1"},{"Princess Celestia","hey sun butt, tell me about", "1"},{"Princess Celestia","hey tia, tell me about", "1"},{"Princess Celestia","tia, tell me about", "1"}
+        {"GlaDOS","hey glados, tell me about", "1", "Neutral"},
+        {"Twilight Sparkle","hey twi, tell me about", "1", "Neutral"},{"Twilight Sparkle","hey purps, tell me about", "1", "Neutral"},{"Twilight Sparkle","hey twilight, tell me about", "1", "Neutral"},{"Twilight Sparkle","hey twiggles, tell me about", "1", "Neutral"},{"Twilight Sparkle","hey twiggle piggle, tell me about", "1", "Neutral"},
+        {"Twilight Sparkle","hey twi, happily tell me about", "1", "Happy"},{"Twilight Sparkle","hey purps, happily tell me about", "1", "Happy"},{"Twilight Sparkle","hey twilight, happily tell me about", "1", "Happy"},{"Twilight Sparkle","hey twiggles, happily tell me about", "1", "Happy"},{"Twilight Sparkle","hey twiggle piggle, happily tell me about", "1", "Happy"},
+        {"Wheatley","hey wheatley, tell me about", "1", "Neutral"},
+        {"The Narrator","hey narrator, tell me about", "1", "Neutral"},
+        {"Tenth Doctor","hey doc, tell me about", "1", "Neutral"},{"Tenth Doctor","hey doctor, tell me about", "1", "Neutral"},
+        {"Soldier","hey soldier, tell me about", "1", "Neutral"},{"Soldier","hey soli, tell me about", "1", "Neutral"},
+        {"Sans","hey sans, tell me about", "1", "Neutral"},
+        {"Fluttershy","hey fluttershy, tell me about", "1", "Neutral"},{"Fluttershy","hey shy, tell me about", "1", "Neutral"},{"Fluttershy","hey flutters, tell me about", "1", "Neutral"},{"Fluttershy","hey flutterbutter, tell me about", "1", "Neutral"},{"Fluttershy","hey fluttershush, tell me about", "1", "Neutral"},{"Fluttershy","hey butter shush, tell me about", "1", "Neutral"},{"Fluttershy","hey flutter butter, tell me about", "1", "Neutral"},{"Fluttershy","hey flutter shush, tell me about", "1", "Neutral"},{"Fluttershy","hey butter shush, tell me about", "1", "Neutral"},
+        {"Rarity","hey rarity, tell me about", "1", "Neutral"},{"Rarity","hey darling, tell me about", "1", "Neutral"},{"Rarity","hey white ranger, tell me about", "1", "Neutral"},
+        {"Applejack","hey applejack, tell me about", "1", "Neutral"},{"Applejack","hey apples, tell me about", "1", "Neutral"},{"Applejack","hey applez, tell me about", "1", "Neutral"},{"Applejack","hey jackapple, tell me about", "1", "Neutral"},{"Applejack","hey aj, tell me about", "1", "Neutral"},
+        {"Rainbow Dash","hey rainbow dash, tell me about", "1", "Neutral"},{"Rainbow Dash","hey dash, tell me about", "1", "Neutral"},{"Rainbow Dash","hey dashie, tell me about", "1", "Neutral"},{"Rainbow Dash","hey rd, tell me about", "1", "Neutral"},
+        {"Pinkie Pie","hey pinkie pie, tell me about", "1", "Neutral"},{"Pinkie Pie","hey pinkie, tell me about", "1", "Neutral"},{"Pinkie Pie","hey ponka pie, tell me about", "1", "Neutral"},{"Pinkie Pie","hey pinker ponk, tell me about", "1", "Neutral"}        
+        /*{"Princess Celestia","hey princess celestia, tell me about", "1", "Neutral"},{"Princess Celestia","hey princess, tell me about", "1", "Neutral"},{"Princess Celestia","hey sunbutt, tell me about", "1", "Neutral"},{"Princess Celestia","hey sun butt, tell me about", "1", "Neutral"},{"Princess Celestia","hey tia, tell me about", "1", "Neutral"},{"Princess Celestia","tia, tell me about", "1", "Neutral"}*/
         };
 
-
         //Making a request and responding accordingly
-        public static async Task MakerequestAsync(string character, string basemessage, SocketMessage message)
+        public static async Task MakerequestAsync(string position, bool multi, string character, string basemessage, SocketMessage message, string emotion)
         {
             //Declaring handler
             var handler = new HttpClientHandler();
@@ -76,7 +82,7 @@ namespace DiscordBot1
                 {
                     //request.Headers.TryAddWithoutValidation("user-agent", "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Mobile Safari/537.36");
                     request.Headers.TryAddWithoutValidation("user-agent", "FifteenCLI");
-                    request.Content = new StringContent("{\"text\":\"" + basemessage + "\",\"character\":\"" + character + "\"}");
+                    request.Content = new StringContent("{\"text\":\"" + basemessage + "\",\"character\":\"" + character + "\" ,\"emotion\":\"" + emotion + "\"}");
                     request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json;charset=UTF-8");
                     var response = await httpClient.SendAsync(request);
 
@@ -88,30 +94,84 @@ namespace DiscordBot1
                         //Waiting 10 seconds (There are better methods of waiting ik but a 1 liner suits me for now)
                         Console.WriteLine("Will send again");
                         Thread.Sleep(10000);
-                        
+
                         //Sending the request again
                         Console.WriteLine("Sending");
-                        _ = MakerequestAsync(character, basemessage, message);
+                        _ = MakerequestAsync(position,multi, character, basemessage, message,emotion);
 
                     }
                     else
                     {
-                        //Responding with OK
-                        Console.WriteLine(response.StatusCode.ToString());
+                        if (multi == false)
+                        {
+                            //Responding with OK
+                            Console.WriteLine(response.StatusCode.ToString());
 
-                        //Storing locally and posting from local because reasons (will be set to variable to suit > 75 char strings given)
-                        byte[] data = await response.Content.ReadAsByteArrayAsync();
-                        System.IO.File.WriteAllBytes("C:\\Users\\Tom\\Documents\\Projectz\\AI API\\test.wav", data);
-                        await message.Channel.SendFileAsync("C:\\Users\\Tom\\Documents\\Projectz\\AI API\\test.wav", "Test");
+                            //Storing locally and posting from local because reasons (will be set to variable to suit > 75 char strings given)
+                            byte[] data = await response.Content.ReadAsByteArrayAsync();
+                            System.IO.File.WriteAllBytes("C:\\Users\\Tom\\Documents\\Projectz\\AI API\\test.wav", data);
+                            await message.Channel.SendFileAsync("C:\\Users\\Tom\\Documents\\Projectz\\AI API\\test.wav", "Test");
+                        }
+                        else
+                        {
+                            //Responding with OK
+                            Console.WriteLine(response.StatusCode.ToString());
+                            //Storing locally and posting from local because reasons (will be set to variable to suit > 75 char strings given)
+                            byte[] data = await response.Content.ReadAsByteArrayAsync();
+                            System.IO.File.WriteAllBytes("C:\\Users\\Tom\\Documents\\Projectz\\AI API\\test"+position+".wav", data);
+                            //await message.Channel.SendFileAsync("C:\\Users\\Tom\\Documents\\Projectz\\AI API\\test.wav", "Test");
+                        }
                     }
                 }
             }
         }
+
+
+        public static async Task MultirequestAsync(List<string> messagelist,string character)
+        {
+            /*
+            using (WebClient client = new WebClient())
+            {
+                client.Headers.Add("application/json;charset=UTF-8");
+                client.Headers.Add("user - agent", "FifteenCLI");
+                client.
+
+            }*/
+            /*
+            int position = 0;
+            foreach (string i in messagelist)
+            {
+                string address = "https://api.fifteen.ai/app/getAudioFile";
+                ///string data = "{\"text\":\"" + i + "\",\"character\":\"" + character + "\"}";
+                //NameValueCollection qscoll = HttpUtility.ParseQueryString(data);
+                //WebClient client = new WebClient();
+                // Optionally specify an encoding for uploading and downloading strings.
+                //client.Encoding = System.Text.Encoding.UTF8;
+                // Upload the data.
+                //string reply = client.UploadString(address, data);
+                // Display the server's response.
+                //Console.WriteLine(reply);
+
+                // Create web client simulating IE6.
+                using (WebClient client = new WebClient())
+                {
+                    client.Headers["User-Agent"] ="Mozilla/4.0 (Compatible; Windows NT 5.1; MSIE 6.0)";
+                    client.QueryString = 
+                    // Download data.
+                    byte[] arr = client.DownloadData("http://www.dotnetperls.com/");
+
+                    // Write values.
+                    Console.WriteLine("--- WebClient result ---");
+                    Console.WriteLine(arr.Length);
+                }
+
+            }*/
+        }
+
     }
 
-
     class Program
-    {
+    {     
         //Discord stuff (shamelessly robbed from https://github.com/gngrninja/csharpi/tree/intro)
         private readonly DiscordSocketClient _client;
         private readonly IConfiguration _config;
@@ -124,6 +184,8 @@ namespace DiscordBot1
 
         public Program()
         {
+            Request req = new Request();
+            Console.WriteLine("GETLENGTH: " + req.Characterinfo.GetLength(0));
             _client = new DiscordSocketClient();
 
             //Hook into log event and write it out to the console
@@ -145,6 +207,7 @@ namespace DiscordBot1
         public async Task MainAsync()
         {
             //This is where we get the Token value from the configuration file
+            Console.WriteLine(_config["Token"]);
             await _client.LoginAsync(TokenType.Bot, _config["Token"]);
             await _client.StartAsync();
 
@@ -164,7 +227,7 @@ namespace DiscordBot1
             return Task.CompletedTask;
         }
 
-        public async Task<List<string>> SplitbasestringAsync(string basemessage)
+        private List<string> Splitbasestring(string basemessage)
         {
             List<string> messagelist = new List<string>();
             int chunkSize = 73;
@@ -173,13 +236,69 @@ namespace DiscordBot1
             {
                 if (i + chunkSize > stringLength) chunkSize = stringLength - i;
                 Console.WriteLine(basemessage.Substring(i, chunkSize));
-                messagelist.Add(basemessage.Substring(i, chunkSize) + ".");             
+                messagelist.Add(basemessage.Substring(i, chunkSize) + ".");
             }
             return messagelist;
         }
 
-        
 
+        private async Task<string> RequestAsync(string basemessage)
+        {         
+            //Declaring handler
+            var handler = new HttpClientHandler();
+
+            //Keeping just in case the wavs are zipped with gzip n' co
+            //handler.AutomaticDecompression = ~DecompressionMethods.None;
+
+
+            using (var httpClient = new HttpClient(handler))
+            {
+                using (var request = new HttpRequestMessage(new HttpMethod("GET"), "https://mashape-community-urban-dictionary.p.rapidapi.com/define?term="+basemessage))
+                {
+                    //request.Headers.TryAddWithoutValidation("user-agent", "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Mobile Safari/537.36");
+                    //request.Headers.TryAddWithoutValidation("user-agent", "FifteenCLI");  
+                    request.Headers.TryAddWithoutValidation("x-rapidapi-host", "mashape-community-urban-dictionary.p.rapidapi.com");
+                    request.Headers.TryAddWithoutValidation("x-rapidapi-key", _config["rapidapikey"]);
+
+                    var response = await httpClient.SendAsync(request);
+
+                    if (response.StatusCode.ToString() != "OK")
+                    {
+                        //Responding to error msg given
+                        Console.WriteLine(response.StatusCode.ToString());
+
+                        //Waiting 10 seconds (There are better methods of waiting ik but a 1 liner suits me for now)
+                        Console.WriteLine("Will send again");
+                        Thread.Sleep(10000);
+
+                        //Sending the request again
+                        Console.WriteLine("Sending");
+                        return await RequestAsync(basemessage);
+                    }
+                    else
+                    {
+                        //                       
+                        string responsejsonstring = await response.Content.ReadAsStringAsync();
+                        //Console.WriteLine(responsejsonstring);
+                        JObject jo = JObject.Parse(responsejsonstring);
+                        string responseparsedjson = (string)jo.SelectToken("list[0].definition");
+                        //Console.WriteLine(responseparsedjson);
+                        string cleanresponseparsedjson = responseparsedjson.Replace("[","");
+                        // Console.WriteLine(cleanresponseparsedjson);
+                        cleanresponseparsedjson = cleanresponseparsedjson.Replace("]", "");
+                        cleanresponseparsedjson = cleanresponseparsedjson.Replace("/", "");
+                        cleanresponseparsedjson = cleanresponseparsedjson.Replace("\\", "");
+                        cleanresponseparsedjson = cleanresponseparsedjson.Replace(":", "");
+                        cleanresponseparsedjson = cleanresponseparsedjson.Replace("\n", "");
+                        cleanresponseparsedjson = cleanresponseparsedjson.Replace("\r", "");
+                        //Console.WriteLine(cleanresponseparsedjson);
+                        return cleanresponseparsedjson;
+                    }
+                }
+            }
+        }
+
+       
         //There's a better way of handling this as highlighted in the git repo but eh 
         private async Task MessageReceivedAsync(SocketMessage message)
         {
@@ -192,7 +311,7 @@ namespace DiscordBot1
         
 
             //Spaz tier method of extracting and acting on message given
-            for (int i = 0; i < 86;i++)
+            for (int i = 0; i < 87;i++)
             {
                 //Checking the message if it fits
                 if (message.Content.Contains(requestclass.Characterinfo[i, 1]))
@@ -210,16 +329,21 @@ namespace DiscordBot1
                         {                          
                             //Making the request and showing it in console
                             Console.WriteLine(requestclass.Characterinfo[i, 0] + " says : " + basemessage);
-                            _ = Request.MakerequestAsync(requestclass.Characterinfo[i, 0], basemessage, message);
+                            _ = Request.MakerequestAsync("",false,requestclass.Characterinfo[i, 0], basemessage, message, requestclass.Characterinfo[i, 3]);
                         }
                         else
                         {
-                            List<string> messagelist = new List<string>();
-                            messagelist = await SplitbasestringAsync(basemessage);                           
-                            foreach (string listitem in messagelist)
-                            {                              
-                                Console.WriteLine(requestclass.Characterinfo[i, 0] + " says : " + listitem);
-                                _ = Request.MakerequestAsync(requestclass.Characterinfo[i, 0], listitem, message);
+                            await message.Channel.SendMessageAsync("Just a minute");
+                            List<string> messagelist = Splitbasestring(basemessage);                            
+                            for (int j = 0; j < messagelist.Count;j++)
+                            {
+                                Console.WriteLine(requestclass.Characterinfo[i, 0] + " says : " + messagelist[j]);
+                                _ = Request.MakerequestAsync(j.ToString(),true, requestclass.Characterinfo[i, 0], messagelist[j]+".", message, requestclass.Characterinfo[i, 3]);                              
+                            }
+                            Thread.Sleep(60000);
+                            for (int j = 0; j < messagelist.Count; j++)
+                            {
+                                await message.Channel.SendFileAsync("C:\\Users\\Tom\\Documents\\Projectz\\AI API\\test"+j.ToString()+".wav", "Test");
                             }
                         }
                                            
@@ -228,10 +352,28 @@ namespace DiscordBot1
                     }
                     else if (requestclass.Characterinfo[i,2] == "1")
                     {
-                        //Message sent to wiki then responded with x saying the paragraph in the wiki (may need to look into further parsing however as some things may not be as precise with what I want)
-                        
+                        //Message sent to wiki then responded with x saying the paragraph in the wiki (may need to look into further parsing however as some things may not be as precise with what I want)    
+                        string parsedmessage = requestclass.Characterinfo[i, 1] + " ";
+                        string basemessage = message.Content.Replace(parsedmessage, "");
+                        basemessage = message.Content.Replace(" ", "%20");
+                        basemessage = basemessage + ".";
+                        string respondedstring = await RequestAsync(basemessage);
+                        Thread.Sleep(3000);
+
+                        if (respondedstring.Length <= 75)
+                        {
+                            //Making the request and showing it in console
+                            Console.WriteLine(requestclass.Characterinfo[i, 0] + " says : " + respondedstring);
+                            _ = Request.MakerequestAsync("", false, requestclass.Characterinfo[i, 0], respondedstring, message, requestclass.Characterinfo[i,3]);
+                        }
+                        else
+                        {
+                            await message.Channel.SendMessageAsync("Just a minute");
+                            List<string> messagelist = Splitbasestring(respondedstring);
+                            _ = Request.MultirequestAsync(messagelist, requestclass.Characterinfo[i, 0]);                       
+
+                        }
                     }
-                    
                 }
             }
         }
