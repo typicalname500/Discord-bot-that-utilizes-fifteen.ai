@@ -1,6 +1,21 @@
 # Discord-bot-that-utilizes-fifteen.ai
 This is a python discord bot that utilises POST requests made to https://fifteen.ai/app/getAudioFile which responds with wav files that are posted onto the server.
 
+# Installation 
+1. Clone/ download the repo
+2. Create a config.json file in Discord-bot-that-utilizes-fifteen.ai\Discord-Bot-1\bin\Debug\netcoreapp2.1\config.json
+
+3. Get the keys/ tokens from these sites
+Rapid API https://rapidapi.com/ Discord token: https://discord.com/developers/applications
+4. Enter the following: 
+  {
+  "Token": "Token",
+  "Token": "Discord bot token",
+  "rapidapikey": "RAPIKey",
+  "Prefix": ";"
+  }
+
+
 # Note
 I haven't programmed in python in over 5 years. Expect to see some "what, why? Just, why" tier coding being done.
 
