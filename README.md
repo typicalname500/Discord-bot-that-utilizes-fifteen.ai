@@ -17,7 +17,7 @@ Rapid API https://rapidapi.com/ Discord token: https://discord.com/developers/ap
 
 
 # Note
-I haven't programmed in python in over 5 years. Expect to see some "what, why? Just, why" tier coding being done.
+I haven't programmed in python in over 5 years. Expect to see some terrible coding being done.
 
 # What commands I will probably try to do:
 
