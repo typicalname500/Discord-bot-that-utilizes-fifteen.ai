@@ -8,9 +8,9 @@ This is a python discord bot that utilises POST requests made to https://fifteen
 
 # What commands I will probalby try to do:
 
-[Currently being worked on] "Hey x, say y"
+[Currently working] "Hey x, say y"
 
-[To be done] "Hey x, tell me about" (retreives a section of a wikipedia page and says it)
+[Currently working] "Hey x, tell me about" (retreives a section of a wikipedia page and says it)
 
 [To be done] "Hey x, [question] Text/ link to text/pdf link" 
 Example Hey GlaDOS, tell me what you learned about the Spanish inquisition? https://en.wikipedia.org/wiki/Spanish_Inquisition
