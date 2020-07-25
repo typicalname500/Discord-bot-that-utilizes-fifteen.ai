@@ -1,4 +1,4 @@
-# Current state: Now working! Not all characters are functional
+# Current state: Not working - Fifteen.ai is down at the moment.
 
 ### Use branches to download the right language of bot to use
 
@@ -21,6 +21,5 @@ Example Hey GlaDOS, tell me what you learned about the Spanish inquisition? http
 [To be done] Again if its ok to do so I may look into using some things from https://www.microsoft.com/en-us/ai/ai-lab
 
 
-# For the love of God, don't missuse this in a stupid way. Please.
-
+# For the love of God, don't missuse this in a stupid way. Please. This means following the [Terms of service](http://fifteen.ai)
 
