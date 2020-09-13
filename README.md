@@ -1,4 +1,4 @@
-# Current state: Not working - Fifteen.ai is down at the moment.
+# Current state: Not working - I'll need to get the emotion parameter to be set correctly.
 
 ### Use branches to download the right language of bot to use
 
