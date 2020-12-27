@@ -13,7 +13,7 @@ Discord token: https://discord.com/developers/applications
   {
   "Token": "",
   "Prefix": ";",
-  "CharacterInfoFile": "C:\\ProgramLocation\characters.json",
+  "CharacterInfoFile": "C:\\ProgramLocation\\characters.json",
   "SingleAudiofilepath": "C:\\Test Directory\\"
 }
 ```
