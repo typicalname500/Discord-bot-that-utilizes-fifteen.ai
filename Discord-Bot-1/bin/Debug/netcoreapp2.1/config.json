@@ -1,4 +1,6 @@
 {
-  "Token": "Token",
-  "Prefix": ";"
+  "Token": "",
+  "Prefix": ";",
+  "CharacterInfoFile": "C:\\XYZ\\characters.json",
+  "SingleAudiofilepath": "C:\\XYZ\\"
 }
