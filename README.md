@@ -9,12 +9,14 @@ This is a python discord bot that utilises POST requests made to https://fifteen
 Discord token: https://discord.com/developers/applications
 
 4. Enter the following: 
+```json
   {
   "Token": "",
   "Prefix": ";",
   "CharacterInfoFile": "C:\\ProgramLocation\characters.json",
   "SingleAudiofilepath": "C:\\Test Directory\\"
 }
+```
 
 # Custom API configuration:
 1. Add a new quote to the Characters.json file and add the following:
