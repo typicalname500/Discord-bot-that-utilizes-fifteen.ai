@@ -10,7 +10,7 @@ Discord token: https://discord.com/developers/applications
 
 4. Enter the following: 
 ```json
-  {
+{
   "Token": "",
   "Prefix": ";",
   "CharacterInfoFile": "C:\\ProgramLocation\\characters.json",
