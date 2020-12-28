@@ -23,7 +23,7 @@ Discord token: https://discord.com/developers/applications
 ```json
 {
   "Phrase": "Custom Quote",
-  "Character": "Sonata Dusk",
+  "Character": "Your prefered character",
   "Function": "2",
   "Emotion":"Neutral",
   "APIReference":"CustomAPIReference"
