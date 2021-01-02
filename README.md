@@ -60,9 +60,11 @@ This is a python discord bot that utilises POST requests made to https://fifteen
 
 * **Make sure that if the object you are adding is within or at the end of the array, that it either has "," after the obect or doesn't have it if it is at the end and that a "," is added to the previous object**
 
-  0. Simple pass of the message text into 15.ai
-  1. Passes message text to wikipedia API and outputs the wikipedia API extract.
-  2. Uses a refered custom API output to make a request to 15.ai (see above for configuration)
+  '0'. Simple pass of the message text into 15.ai
+  
+  '1'. Passes message text to wikipedia API and outputs the wikipedia API extract.
+  
+  '2'. Uses a refered custom API output to make a request to 15.ai (see above for configuration)
 
 * JSON for uses of functions 0/1
 
