@@ -1,24 +1,29 @@
 ###################################################################################
 #Using the brilliant API that I could only hope to call my own
-#>>>>>>>>>>>>>>>>https://fifteen.ai/<<<<<<<<<<<<<<<<<<<<
+#>>>>>>>>>>>>>>>>>>>>>https://fifteen.ai/<<<<<<<<<<<<<<<<<<<<<
 ###################################################################################
 
-# bot.py
 #importing modules
 import os
-#import random
 import requests
 import discord
 import time
-import wikipedia
+import json
+import asyncio
+import re
 
-#[characher name, phrase to catch, characters to remove, type of response]
-#Creating a "2D array" that holds the request information and phrases to be checked
-request_info=[["GLaDOS","hey glados, say" , 15, 0, "Neutral"],["Twilight Sparkle","hey twi, say" , 12, 0, "Neutral"],["Twilight Sparkle","hey purps, say" , 13, 0, "Neutral"],["Twilight Sparkle","hey twilight, say" , 17, 0, "Neutral"],["Twilight Sparkle","hey twiggles, say" , 17, 0, "Neutral"],["Twilight Sparkle","hey twiggle piggle, say" , 23, 0, "Neutral"],["Twilight Sparkle","hey twi, happily say" , 20, 0, "Happy"],["Twilight Sparkle","hey purps, happily say" , 22, 0, "Happy"],["Twilight Sparkle","hey twilight, happily say" , 25, 0, "Happy"],["Twilight Sparkle","hey twiggles, happily say" , 25, 0, "Happy"],["Twilight Sparkle","hey twiggle piggle, happily say" , 31, 0, "Happy"],["Wheatley","hey wheatley, say" , 17, 0, "Neutral"],["The Narrator","hey narrator, say" , 17, 0, "Neutral"],["Tenth Doctor","hey doc, say" , 12, 0, "Neutral"],["Tenth Doctor","hey doctor, say" , 15, 0, "Neutral"],["Soldier","hey soldier, say" , 16, 0, "Neutral"],["Soldier","hey soli, say" , 13, 0, "Neutral"],["Sans","hey sans, say" , 13, 0, "Neutral"],["Fluttershy","hey fluttershy, say" , 19, 0, "Neutral"],["Fluttershy","hey shy, say" , 12, 0, "Neutral"],["Fluttershy","hey flutters, say" , 17, 0, "Neutral"],["Fluttershy","hey flutterbutter, say" , 22, 0, "Neutral"],["Fluttershy","hey fluttershush, say" , 21, 0, "Neutral"],["Fluttershy","hey butter shush, say" , 20, 0, "Neutral"],["Fluttershy","hey flutter butter, say" , 22, 0, "Neutral"],["Fluttershy","hey flutter shush, say" , 21, 0, "Neutral"],["Fluttershy","hey butter shush, say" , 20, 0, "Neutral"],["Rarity","hey rarity, say" , 15, 0, "Neutral"],["Rarity","hey darling, say" , 16, 0, "Neutral"],["Rarity","hey white ranger, say" , 21, 0, "Neutral"],["Applejack","hey applejack, say" , 18, 0, "Neutral"],["Applejack","hey apples, say" , 15, 0, "Neutral"],["Applejack","hey applez, say" , 15, 0, "Neutral"],["Applejack","hey jackapple, say" , 18, 0, "Neutral"],["Applejack","hey aj, say", 11, 0, "Neutral"],["Rainbow Dash","hey rainbow dash, say" , 21, 0, "Neutral"],["Rainbow Dash","hey dash, say" , 13, 0, "Neutral"],["Rainbow Dash","hey dashie, say" , 15, 0, "Neutral"],["Rainbow Dash","hey rd, say" , 15, 0, "Neutral"],["Pinkie Pie","hey pinkie pie, say" , 19, 0, "Neutral"],["Pinkie Pie","hey pinkie, say" , 15, 0, "Neutral"],["Pinkie Pie","hey ponka pie, say" , 18, 0, "Neutral"],["Pinkie Pie","hey pinker ponk, say" , 20, 0, "Neutral"],["Princess Celestia","hey princess celestia, say" , 26, 0, "Neutral"],["Princess Celestia","hey princess, say" , 17, 0, "Neutral"],["Princess Celestia","hey sunbutt, say" , 16, 0, "Neutral"],["Princess Celestia","hey sun butt, say" , 17, 0, "Neutral"],["Princess Celestia","hey tia, say" , 12, 0, "Neutral"],["Princess Celestia","tia, say" , 8, 1, "Neutral"],['GlaDOS','hey glados, tell me about',25, 1, "Neutral"],['Twilight Sparkle','hey twi, tell me about',22, 1, "Neutral"],['Twilight Sparkle','hey purps, tell me about',24,1],['Twilight Sparkle','hey twilight, tell me about',27, 1, "Neutral"],['Twilight Sparkle','hey twiggles, tell me about',27, 1, "Neutral"],['Twilight Sparkle','hey twiggle piggle, tell me about',33, 1, "Neutral"],['Twilight Sparkle','hey twi, happily tell me about',30, 1, "Neutral"],['Twilight Sparkle','hey purps, happily tell me about',32,1],['Twilight Sparkle','hey twilight, happily tell me about',35, 1, "Neutral"],['Twilight Sparkle','hey twiggles, happily tell me about',35, 1, "Neutral"],['Twilight Sparkle','hey twiggle piggle, happily tell me about',41, 1, "Neutral"],['Wheatley','hey wheatley, tell me about',27, 1, "Neutral"],['The Narrator','hey narrator, tell me about',27, 1, "Neutral"],['Tenth Doctor','hey doc, tell me about',22, 1, "Neutral"],['Tenth Doctor','hey doctor, tell me about',25, 1, "Neutral"],['Soldier','hey soldier, tell me about',26, 1, "Neutral"],['Soldier','hey soli, tell me about',23, 1, "Neutral"],['Sans','hey sans, tell me about',23, 1, "Neutral"],['Fluttershy','hey fluttershy, tell me about',29, 1, "Neutral"],['Fluttershy','hey shy, tell me about',22, 1, "Neutral"],['Fluttershy','hey flutters, tell me about',27, 1, "Neutral"],['Fluttershy','hey flutterbutter, tell me about',32, 1, "Neutral"],['Fluttershy','hey fluttershush, tell me about',31, 1, "Neutral"],['Fluttershy','hey butter shush, tell me about',31, 1, "Neutral"],['Fluttershy','hey flutter butter, tell me about',33, 1, "Neutral"],['Fluttershy','hey flutter shush, tell me about',32, 1, "Neutral"],['Fluttershy','hey butter shush, tell me about',31, 1, "Neutral"],['Rarity','hey rarity, tell me about',25, 1, "Neutral"],['Rarity','hey darling, tell me about',26, 1, "Neutral"],['Rarity','hey white ranger, tell me about',31, 1, "Neutral"],['Applejack','hey applejack, tell me about',28, 1, "Neutral"],['Applejack','hey apples, tell me about',25, 1, "Neutral"],['Applejack','hey applez, tell me about',25, 1, "Neutral"],['Applejack','hey jackapple, tell me about',28, 1, "Neutral"],['Applejack','hey aj, tell me about',21, 1, "Neutral"],['Rainbow Dash','hey rainbow dash, tell me about',31, 1, "Neutral"],['Rainbow Dash','hey dash, tell me about',23, 1, "Neutral"],['Rainbow Dash','hey dashie, tell me about',25, 1, "Neutral"],['Rainbow Dash','hey rd, tell me about',21, 1, "Neutral"],['Pinkie Pie','hey pinkie pie, tell me about',29, 1, "Neutral"],['Pinkie Pie','hey pinkie, tell me about',25, 1, "Neutral"],['Pinkie Pie','hey ponka pie, tell me about',28, 1, "Neutral"],['Pinkie Pie','hey pinker ponk, tell me about',30, 1, "Neutral"],['Princess Celestia','hey princess celestia, tell me about',36, 1, "Neutral"],['Princess Celestia','hey princess, tell me about',27, 1, "Neutral"],['Princess Celestia','hey sunbutt, tell me about',26, 1, "Neutral"],['Princess Celestia','hey sun butt, tell me about',27, 1, "Neutral"],['Princess Celestia','hey tia, tell me about',22, 1, "Neutral"],['Princess Celestia','tia, tell me about',18, 1, "Neutral"]]
-
-#["GlaDOS","hey glados, tell me about" , 15, 1],["Twilight Sparkle","hey twi, tell me about" , 12, 1],["Twilight Sparkle","hey purps, tell me about" , 13, 1],["Twilight Sparkle","hey twilight, tell me about" , 17, 1],["Twilight Sparkle","hey twiggles, tell me about" , 17, 1],["Twilight Sparkle","hey twiggle piggle, tell me about" , 23, 1],["Wheatley","hey wheatley, tell me about" , 17, 1],["The Narrator","hey narrator, tell me about" , 17, 1],["Tenth Doctor","hey doc, tell me about" , 12, 1],["Tenth Doctor","hey doctor, tell me about" , 15, 1],["Soldier","hey soldier, tell me about" , 16, 1],["Soldier","hey soli, tell me about" , 13, 1],["Sans","hey sans, tell me about" , 13, 1],["Fluttershy","hey fluttershy, tell me about" , 19, 1],["Fluttershy","hey shy, tell me about" , 12, 1],["Fluttershy","hey flutters, tell me about" , 17, 1],["Fluttershy","hey flutterbutter, tell me about" , 22, 1],["Fluttershy","hey fluttershush, tell me about" , 21, 1],["Fluttershy","hey butter shush, tell me about" , 20, 1],["Fluttershy","hey flutter butter, tell me about" , 22, 1],["Fluttershy","hey flutter shush, tell me about" , 21, 1],["Fluttershy","hey butter shush, tell me about" , 20, 1],["Rarity","hey rarity, tell me about" , 15, 1],["Rarity","hey darling, tell me about" , 16, 1],["Rarity","hey white ranger, tell me about" , 21, 1],["Applejack","hey applejack, tell me about" , 18, 1],["Applejack","hey apples, tell me about" , 15, 1],["Applejack","hey applez, tell me about" , 15, 1],["Applejack","hey jackapple, tell me about" , 18, 1],["Applejack","hey aj, tell me about", 11, 1],["Rainbow Dash","hey rainbow dash, tell me about" , 21, 1],["Rainbow Dash","hey dash, tell me about" , 13, 1],["Rainbow Dash","hey dashie, tell me about" , 15, 1],["Rainbow Dash","hey rd, tell me about" , 15, 1],["Pinkie Pie","hey pinkie pie, tell me about" , 19, 1],["Pinkie Pie","hey pinkie, tell me about" , 15, 1],["Pinkie Pie","hey ponka pie, tell me about" , 18, 1],["Pinkie Pie","hey pinker ponk, tell me about" , 20, 1],["Princess Celestia","hey princess celestia, tell me about" , 26, 1],["Princess Celestia","hey princess, tell me about" , 17, 1],["Princess Celestia","hey sunbutt, tell me about" , 16, 1],["Princess Celestia","hey sun butt, tell me about" , 17, 1],["Princess Celestia","hey tia, tell me about" , 12, 1],["Princess Celestia","tia, tell me about" , 8, 1]
-
-#['GlaDOS','hey glados, tell me about',25,1],['Twilight Sparkle','hey twi, tell me about',22,1],['Twilight Sparkle','hey purps, tell me about',24,1],['Twilight Sparkle','hey twilight, tell me about',27,1],['Twilight Sparkle','hey twiggles, tell me about',27,1],['Twilight Sparkle','hey twiggle piggle, tell me about',33,1],['Wheatley','hey wheatley, tell me about',27,1],['The Narrator','hey narrator, tell me about',27,1],['Tenth Doctor','hey doc, tell me about',22,1],['Tenth Doctor','hey doctor, tell me about',25,1],['Soldier','hey soldier, tell me about',26,1],['Soldier','hey soli, tell me about',23,1],['Sans','hey sans, tell me about',23,1],['Fluttershy','hey fluttershy, tell me about',29,1],['Fluttershy','hey shy, tell me about',22,1],['Fluttershy','hey flutters, tell me about',27,1],['Fluttershy','hey flutterbutter, tell me about',32,1],['Fluttershy','hey fluttershush, tell me about',31,1],['Fluttershy','hey butter shush, tell me about',31,1],['Fluttershy','hey flutter butter, tell me about',33,1],['Fluttershy','hey flutter shush, tell me about',32,1],['Fluttershy','hey butter shush, tell me about',31,1],['Rarity','hey rarity, tell me about',25,1],['Rarity','hey darling, tell me about',26,1],['Rarity','hey white ranger, tell me about',31,1],['Applejack','hey applejack, tell me about',28,1],['Applejack','hey apples, tell me about',25,1],['Applejack','hey applez, tell me about',25,1],['Applejack','hey jackapple, tell me about',28,1],['Applejack','hey aj, tell me about',21,1],['Rainbow Dash','hey rainbow dash, tell me about',31,1],['Rainbow Dash','hey dash, tell me about',23,1],['Rainbow Dash','hey dashie, tell me about',25,1],['Rainbow Dash','hey rd, tell me about',21,1],['Pinkie Pie','hey pinkie pie, tell me about',29,1],['Pinkie Pie','hey pinkie, tell me about',25,1],['Pinkie Pie','hey ponka pie, tell me about',28,1],['Pinkie Pie','hey pinker ponk, tell me about',30,1],['Princess Celestia','hey princess celestia, tell me about',36,1],['Princess Celestia','hey princess, tell me about',27,1],['Princess Celestia','hey sunbutt, tell me about',26,1],['Princess Celestia','hey sun butt, tell me about',27,1],['Princess Celestia','hey tia, tell me about',22,1],['Princess Celestia','tia, tell me about',18,1]
+#Opening JSON files and storing information as object variables
+with open('characters.json') as json_file:
+    data = json.load(json_file)    
+    Character_info = data
+           
+with open('CustomAPIConfig.json') as json_file:
+        data = json.load(json_file)
+        CustomAPI_info = data 
+        
+with open('TokenConfig.json') as json_file:
+        data = json.load(json_file)
+        Token_info = data 
 
 #Setting the fifteen.ai post request headers
 headers = {
@@ -39,205 +44,192 @@ headers = {
 #Establishes client connection
 client = discord.Client()
 
-
-#Making a single request and responding to it
-async def make_request(i, message):
-    print(request_info[i][3])
-    if request_info[i][3] == 0:
-        #Stripping the start of the message to put the rest into the request "text" section
-        Tobesaid = message.content[request_info[i][2] + 1:]
-        #Printing the character and the 
-        print(request_info[i][0]+" says: "+Tobesaid)
-    
-        #print(len(Tobesaid))
-        #Making the data section of the request
-        data = '{"text":"%s","character":"%s","emotion":"%s"}' % (Tobesaid+".", request_info[i][0], request_info[i][4])
-
-        #Debug print that shows the data section (makes sure the correct sting is passed)
-        print(data)
-
-        #Constructing the request, passing in the headers and the data
-        response = requests.post('https://api.fifteen.ai/app/getAudioFile', headers=headers, data=data)       
-        print('response recevied!')            
-        #Checking if the api responds with a 500/ server error message
-        #print(response.text)
-        if('server error' in response.text):
-            print('error!')
-            print(response.text)
-            await message.channel.send('Something went wrong!')
-            #time.sleep(20)
-            #break
-        else:
-            #Posting the response 
-            with open('test1.wav', 'wb') as file:               
-                file.write(response.content)
-            #print(response.text)
-            #Text to be entered with image \/  Image being specified \/
-            await message.channel.send('Test',file=discord.File('test1.wav'))
-
-            #Debug checking status code of response (403 may mean there will need to be a change to the request)
-            #await message.channel.send(response.status_code)
-
-            #Removing the file once it has been posted
-            os.remove("test1.wav")
-            #print("File Removed!")
-            #break
-    elif request_info[i][3] == 1:
-        #Stripping the start of the message to put the rest into the request "text" section
-        Tobegiven = message.content[request_info[i][2] + 1:]                  
-        #print(wikipedia.summary(One, sentences=1))
-                    
-        Tobesaid = str(wikipedia.summary(Tobegiven, sentences=1))
-        #print(Two)
-        
-        #Stripping the start of the message to put the rest into the request "text" section
-        #Tobesaid = message.content[request_info[i][2] + 1:]
-        #Printing the character and the 
-        print(request_info[i][0]+" says: "+Tobesaid)
-    
-        #print(len(Tobesaid))
-        #Making the data section of the request
-        data = '{"text":"%s","character":"%s","emotion":"%s"}' % (Tobesaid+".", request_info[i][0], request_info[i][4])
-
-        #Debug print that shows the data section (makes sure the correct sting is passed)
-        print(data)
-
-        #Constructing the request, passing in the headers and the data
-        response = requests.post('https://api.fifteen.ai/app/getAudioFile', headers=headers, data=data)       
-        print('response recevied!')            
-        #Checking if the api responds with a 500/ server error message
-        #print(response.text)
-        if('server error' in response.text):
-            print('error!')
-            print(response.text)
-            await message.channel.send('Something went wrong!')
-            #time.sleep(20)
-            #break
-        else:
-            #Posting the response 
-            with open('test1.wav', 'wb') as file:               
-                file.write(response.content)
-            #print(response.text)
-            #Text to be entered with image \/  Image being specified \/
-            await message.channel.send('Test',file=discord.File('test1.wav'))
-
-            #Debug checking status code of response (403 may mean there will need to be a change to the request)
-            #await message.channel.send(response.status_code)
-
-            #Removing the file once it has been posted
-            os.remove("test1.wav")
-            #print("File Removed!")
-            #break
-
-async def make_several_requests(i,Tobesaid,message):
-    n = 74
-    # Using list comprehension 
-    out = [(Tobesaid[i:i+n]) for i in range(0, len(Tobesaid), n)] 
-    #Printing the character and the 
-    print(request_info[i][0]+" says: "+Tobesaid)
-    # Printing output 
-    #print(out)
-    #print(len(out))
-
-    for x in out:
-        #Making the data section of the request
-        data = '{"text":"%s","character":"%s","emotion":"%s"}' % (Tobesaid+".", request_info[i][0], request_info[i][4])
-
-        #Debug print that shows the data section (makes sure the correct sting is passed)
-        print(data)
-
-        #Constructing the request, passing in the headers and the data
-        response = requests.post('https://api.fifteen.ai/app/getAudioFile', headers=headers, data=data)       
-        #print('sent request')            
-        #Checking if the api responds with a 500/ server error message
-        #print(response.text)
-        if('server error' in response.text):
-            print('error!')
-            print(str(response.text))
-            await message.channel.send('Something went wrong!')
-            #time.sleep(20)
-            #break
-        else:
-            #Posting the response 
-            with open('test1.wav', 'wb') as file:               
-                file.write(response.content)
-            #Text to be entered with image \/  Image being specified \/
-            await message.channel.send('Test',file=discord.File('test1.wav'))
-
-            #Debug checking status code of response (403 may mean there will need to be a change to the request)
-            #await message.channel.send(response.status_code)
-
-            #Removing the file once it has been posted
-            os.remove("test1.wav")
-            #print("File Removed!")
-            #break                     
-
-
-
-
 #Announcing the bots entrance
 @client.event
-async def on_ready():
+async def on_ready():  
     print(f'{client.user.name} has connected to Discord!')
 
-#Event declaration
+#Event declaration for a message being received ('main' function)
 @client.event
 async def on_message(message):
     if message.author == client.user:
         return
+    
+    #Variable to hold character object
+    ObjectIndex = 0
+    #Looping through each phrase object and passing in the relevant information
+    for CharacterObject in Character_info['Phrases']:
+        #Checking if the phrase used is within the character quote file
+        if CharacterObject['Phrase'] in message.content:
+            #Variable to store string which has had the specified phrase removed 
+            PhraseRemovedString = message.content.replace(CharacterObject['Phrase'],'')
+           
+            #Checking what "Function is being asked for" and calling the relevant function/ breaking after it to stop the loop's itterations (I'm too lazy for a simple while loop, sue me.)
+            #1. Making a request to 15.ai using the stripped message content
+            #2. Using the stripped message content to make a request to wikipedia's API and then using the extract from that in the 15.ai request(s) 
+            #3. Using the stripped message content to make a request to a custom API specified within the CustomAPIConfig.json file and using the parse response from that within a request to 15.ai
+            if CharacterObject['Function'] == '0':
+                asyncio.create_task(HandleMessageLength(PhraseRemovedString,ObjectIndex,message))
+                break                                
+            elif CharacterObject['Function'] == '1':                            
+                await MakeWikiRequest(PhraseRemovedString,message,ObjectIndex)
+                break
+            elif CharacterObject['Function'] == '2':
+                asyncio.create_task(HandleCustomAPIInfo(PhraseRemovedString,CharacterObject['APIReference'],message,ObjectIndex))
+                break
+        #Incrementing the characte object index
+        ObjectIndex = ObjectIndex + 1
 
-    #Itterating through each object in the array to see if the phrases match
-    i = -1
-    while i < 96:
-        i = i + 1
-        #Debug prints the index and the phrases
-        #print(i)
-        #print(request_info[i][1])
+#Function to make a request to the 15.ai api and handle the output
+async def Make15APIRequest(MessageText,CharacterIndex,message,RequestTries):   
+    print(Character_info['Phrases'][CharacterIndex]['Character'] + " says: " +MessageText)
+    
+    #Variable to store POST content to use within the request
+    data = '{"text":"%s","character":"%s","emotion":"%s"}' % (MessageText+".", Character_info['Phrases'][CharacterIndex]['Character'], Character_info['Phrases'][CharacterIndex]['Emotion'])
 
-        #Checking if the phrase and the message content match
-        Msgstartwith = message.content[0:request_info[i][2]]
-        #print(Msgstartwith)
-        #boop = request_info[i][1]
-        #print(boop)
+    #Debug print that shows the data section (makes sure the correct sting is passed)
+    #print(data)
+
+    #Constructing the request, passing in the headers and the data
+    response = requests.post('https://api.fifteen.ai/app/getAudioFile', headers=headers, data=data)       
+    #print('response recevied!')            
+    #Checking if the api responds with a 500/ server error message
+    if response.status_code != 200:
+        print('15.ai response error!')
         
-        #if message.content.startswith(request_info[i][1].lower()):
-        if Msgstartwith == request_info[i][1]:
-            #Debug to show the 'function type'
-            #print(request_info[i][3])
+        #Checking if 3 bad responses have been made and erroring as such
+        if RequestTries >= 3:
+            await message.channel.send('Something went wrong with making a call to 15.ai!')
+        else:
+            #Waiting 10 seconds and sending the request again
+            await asyncio.sleep(10) #https://stackoverflow.com/questions/42279675/synchronous-sleep-into-asyncio-coroutine#:~:text=then%20your_sync_function%20is%20running%20in%20a%20separate%20thread,,into%20the%20janus%20library.%20More%20tips%20on%20this:
+            TempRequestTries = RequestTries + 1
+            print(TempRequestTries)
+            asyncio.create_task(Make15APIRequest(MessageText,CharacterIndex,message,TempRequestTries))
+    else:
+        #Creating a wav file with the response content and posting the response on discord 
+        with open('test1.wav', 'wb') as file:
+            #Saving the response as a wav file      
+            file.write(response.content)
+            
+            #Text to be entered with file \/  file being specified \/
+            await message.channel.send('Test',file=discord.File('test1.wav'))
+            #Debug checking status code of response (403 may mean there will need to be a change to the request)
+            #await message.channel.send(response.status_code)
 
-            #Checking what 'function' to use (hey x say y)
-            if request_info[i][3] == 0:
-                #Stripping the start of the message to put the rest into the request "text" section
-                Tobesaid = message.content[request_info[i][2] + 1:]                
-                #print(len(Tobesaid))
+        #Removing the file once it has been posted
+        os.remove("test1.wav")
+        #print("File Removed!")
+        #break
 
-                if len(Tobesaid) >= 80:
-                    #print("a")
-                    await make_several_requests(i,Tobesaid,message)                         
-                else:       
-                    #print("b")      
-                    await make_request(i, message)
-            #Function 2: 
-            elif request_info[i][3] == 1:                                      
-                try:
-                    #Stripping the start of the message to put the rest into the request "text" section
-                    Tobegiven = message.content[request_info[i][2] + 1:]                  
-                    #print(wikipedia.summary(One, sentences=1))
-                    
-                    Tobesaid = str(wikipedia.summary(Tobegiven, sentences=1))
-                    #print(Two)
-                    if len(Tobesaid) >= 75:
-                        #print("c")
-                        await make_several_requests(i,Tobesaid,message)
-                    else:       
-                        #print("d")      
-                        await make_request(i, message)
-                    
-                    #await message.channel.send(wikipedia.summary(Tobesaid, sentences=1))
-                except Exception as inst:
-                    print(inst)
+#Function that makes a GET request to the Wikipedia API and then using the parsed text within a POST request to 15.ai
+async def MakeWikiRequest(GivenPrompt,message,ObjectIndex):
+    #https://realpython.com/python-requests/#:~:text=%20Python%E2%80%99s%20Requests%20Library%20%28Guide%29%20%201%20Getting,values%20through%20query%20string%20parameters%20in...%20More%20
+    #Variable to hold wiki request
+    WikiRequestString = 'https://en.wikipedia.org/api/rest_v1/page/summary/'+GivenPrompt
+    #Making GET request using the above variable
+    WikiRequest = requests.get(WikiRequestString)
+    #Checking if the request responds OK and erroring if it doesn't
+    if WikiRequest.status_code != 200:
+        print('Error!')            
+        await message.channel.send('Something went wrong with making a call to the Wiki API!')
+    else:          
+        #Parsing the JSON returned and either outputting an error "if nothing comes back for that search" or using the parsed string within a call to 15.ai
+        try:
+            WikiExtract = WikiRequest.json()['extract']
+            #print(WikiRequest.json()['extract'])
+            asyncio.create_task(HandleMessageLength(WikiExtract,ObjectIndex,message))
+        except Exception as inst:
+            print(inst)
+            await message.channel.send('Something went wrong with parsing the Custom API!')
+
+#Function that handles how many requests to the 15.ai api need to be made
+async def HandleMessageLength(GivenText,ObjectIndex,message):
+    GivenText = await CleanStrings(GivenText)
+    print(GivenText)
+    #Checking if the text is above 73 characters (15.ai character limit)
+    if len(GivenText) <= 73:
+        #Making a single request to 15.ai
+        asyncio.create_task(Make15APIRequest(GivenText,ObjectIndex,message,0))
+    else:
+        #Character "Chunk" number
+        n = 73
+        # Using list comprehension to split the string into 73 chharacter "chunks" (https://pythonexamples.org/python-split-string-into-specific-length-chunks/)
+        out = [(GivenText[i:i+n]) for i in range(0, len(GivenText), n)]
+        for Substring in out:
+            #print(Substring)
+            asyncio.create_task(Make15APIRequest(Substring,ObjectIndex,message,0))
+        
+#Function to handle what custom API should be being used and what API call should be used
+async def HandleCustomAPIInfo(GivenText,CustomAPIReference,message,ObjectIndex):
+    #Index to allow passing of what object to use
+    CustomAPIIndex = 0
+    #Looping through each of the custom API objects
+    for CustomAPIObject in CustomAPI_info['APIs']:       
+        #Checking the object reference to see if it is the one specified by the quote
+        if CustomAPIObject['ObjectReference'] == CustomAPIReference:
+            #Temporary variable to be passed to the request function to be the APICall to use
+            TempAPICall = ''
+            if '{0}' in CustomAPIObject['BaseAPICall']:
+                #Making the API call that will be passed with the specified section being replaced with the text after the quote
+                TempAPICall = CustomAPIObject['BaseAPICall'].replace('{0}',GivenText)
             else:
-                print("boop")
+                #Making the API call that will be passed just the request
+                TempAPICall = CustomAPIObject['BaseAPICall']
+                
+            if CustomAPIObject['ReqType'] == 'GET':
+                #Calling function to handle making a get request/ parsing its output
+                asyncio.create_task(MakeCustomGETAPICall(message,CustomAPIIndex,TempAPICall,ObjectIndex))
+            else:
+                #Making Post requests seem to be a little more tricky. Will add soon (hopefully)
+                print('b')
+        #Incrementing index
+        CustomAPIIndex = CustomAPIIndex + 1
+       
+#Function to make GET request and handle its output     
+async def MakeCustomGETAPICall(message,CustomAPIIndex,APICall,ObjectIndex):   
+    #Making a get request to the custom API
+    CustomAPIRequest = requests.get(APICall)
+    if CustomAPIRequest.status_code != 200:
+        #Showing "error" in console/ letting the user know that there was an error
+        print('Error!')       
+        await message.channel.send('Something went wrong with making a call to the Custom API!')
+    else:          
+        #Checking the type of output (XML/ JSON)
+        if CustomAPI_info['APIs'][CustomAPIIndex]['OutputType'] == 'JSON':
+            try:
+                #Parsing text from the path given
+                CustomAPIExtract = CustomAPIRequest.json()[CustomAPI_info['APIs'][CustomAPIIndex]['JSONPath']]
+                #print(WikiRequest.json()['extract'])
+                #Calling the fucntion to use the parsed string in a request to 15.ai
+                asyncio.create_task(HandleMessageLength(CustomAPIExtract,ObjectIndex,message))
+            except Exception as inst:
+                #Showing error in console/ letting the user know that there was an error
+                print(inst)
+                await message.channel.send('Something went wrong with parsing the Custom API!')
+        else:
+            try:                               
+                #Using etree to parse the XML using (https://stackoverflow.com/a/52506999)
+                from lxml.etree import fromstring
+                string = CustomAPIRequest.text
+                response = fromstring(string.encode('utf-8'))
+                elm = response.xpath(CustomAPI_info['APIs'][CustomAPIIndex]['XMLPath']).pop()
+                CustomAPIExtract = elm.text                
+                #Calling the fucntion to use the parsed string in a request to 15.ai
+                asyncio.create_task(HandleMessageLength(CustomAPIExtract,ObjectIndex,message))
+            except Exception as inst:
+                #Showing error in console/ letting the user know that there was an error
+                print(inst)
+                await message.channel.send('Something went wrong with parsing the Custom API!')           
+
+#Function to remove non ASCII characters and also remove special characters
+async def CleanStrings(string_nonASCII):
+    #Making the given string encoded in ascii  
+    string_encode = string_nonASCII.encode("ascii", "ignore") # https://pythonguides.com/remove-unicode-characters-in-python/#:~:text=In%20python,%20to%20remove%20non-ASCII%20characters%20in%20python,,a%20string%20without%20ASCII%20character%20use%20string.decode().%20Example:
+    string_decode = string_encode.decode()
+    #Removing special characters
+    string_decode = re.sub(r"[^a-zA-Z0-9\.\,\s]+", '', string_decode) # https://stackoverflow.com/questions/43358857/how-to-remove-special-characters-except-space-from-a-file-in-python
+    return string_decode
 
 #Running the script through the bot
-client.run('Tolen')
+client.run(Token_info['token'])

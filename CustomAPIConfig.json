@@ -1,0 +1,28 @@
+{
+    "APIs":[
+        {
+            "ObjectReference":"Catfacts",
+            "ReqType":"GET",
+            "BaseAPICall":"https://cat-fact.herokuapp.com/facts/random?animal_type=cat&amount=1",
+            "OutputType":"JSON",
+            "JSONPath":"text",
+            "XMLPath":""
+        },
+        {
+            "ObjectReference":"Animalfacts",
+            "ReqType":"GET",
+            "BaseAPICall":"https://cat-fact.herokuapp.com/facts/random?animal_type={0}&amount=1",
+            "OutputType":"JSON",
+            "JSONPath":"text",
+            "XMLPath":""
+        },
+        {
+            "ObjectReference":"BibliographyExtract",
+            "ReqType":"GET",
+            "BaseAPICall":"https://bnb.data.bl.uk/doc/resource/007446989.xml",
+            "OutputType":"XML",
+            "JSONPath":"",
+            "XMLPath":"/result/primaryTopic/name"
+        }
+    ]
+}
