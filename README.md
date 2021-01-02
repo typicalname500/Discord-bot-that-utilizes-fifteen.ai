@@ -50,6 +50,40 @@ Discord token: https://discord.com/developers/applications
 * "Hey GLaDOS, Give me an extract from a bibliography" (Will call the 2nd custom API listed within the customAPIconfig file)
 * "Hey GLaDOS, give me an animal fact about dog" (Will call the 3rd custom API listed within the customAPIconfig file. The typo for "dog" is correct as dog needs to be entered into the api)
 
+# Custom command phrases
+1. Open the file named "characters.json"
+2. Edit the "Phrases" object array to include another object to hold your information, below are what each "function" correlates to also:
+
+* **Make sure that if the object you are adding is within or at the end of the array, that it either has "," after the obect or doesn't have it if it is at the end and that a "," is added to the previous object**
+
+  0. Simple pass of the message text into 15.ai
+  1. Passes message text to wikipedia API and outputs the wikipedia API extract.
+  2. Uses a refered custom API output to make a request to 15.ai (see above for configuration)
+
+* JSON for uses of functions 0/1
+
+```json
+{
+  "Phrase": "Command phrase that will be said in discord message ",
+  "Character": "Character (Exact reference)",
+  "Function": "0/1",
+  "Emotion":"Emotion"
+},
+``` 
+
+ * JSON for using function 2, if the custom API is not using the rest of the message, trim the trailing space from the phrase
+ 
+ ```json
+{
+  "Phrase": "Command phrase that will be said in discord message ",
+  "Character": "Character (Exact reference)",
+  "Function": "2",           
+  "Emotion":"Emotion",
+  "APIReference":"Custom API Reference string"
+}
+ ```
+
+3. Save the file.
 
 # What commands I will probably try to do:
 

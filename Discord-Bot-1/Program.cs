@@ -38,57 +38,75 @@ namespace DiscordBot1
         //Populating the CustomAPI JObject using the json file
         public JObject PopulateCustomAPIObject()
         {
-            //JObject jo = JObject.Parse("");
-            //JToken pathResult = jo.SelectToken("Phrases[0].Phrase");           
-            string tempjsonfile = File.ReadAllText(AppContext.BaseDirectory + "CustomAPIConfig.json");
-            JObject jo = JObject.Parse(tempjsonfile);            
-            return jo;
+            //Catching errors
+            try
+            {
+                //JObject jo = JObject.Parse("");
+                //JToken pathResult = jo.SelectToken("Phrases[0].Phrase");           
+                string tempjsonfile = File.ReadAllText(AppContext.BaseDirectory + "CustomAPIConfig.json");
+                JObject jo = JObject.Parse(tempjsonfile);
+                return jo;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error with returning Custom API information \n" + ex);
+                return null;
+            }
         }
 
         //List of a list of strings that holds JSON values using the character json file
         public List<List<string>> Populatecharacters()
-        {          
-            //Creating a config variable to be referenced
-            IConfiguration _config;
-            var _builder = new ConfigurationBuilder()
-                .SetBasePath(AppContext.BaseDirectory)
-                .AddJsonFile(path: "config.json");
-            _config = _builder.Build();
- 
-            //String that will become the json file
-            string filelines = "";
-
-            //Shamelessly creating a string that is just the json file that will be converted to a JSON object
-            foreach (string line in File.ReadAllLines(_config["CharacterInfoFile"]))
+        {
+            //Catching errors
+            try
             {
-                filelines = filelines + line + "\n";
-            }
-            
-            //Making the file's most outter object into a JObject
-            JObject o = JObject.Parse(filelines);        
+                //Creating a config variable to be referenced
+                IConfiguration _config;
+                var _builder = new ConfigurationBuilder()
+                    .SetBasePath(AppContext.BaseDirectory)
+                    .AddJsonFile(path: "config.json");
+                _config = _builder.Build();
 
-            //Temporary list of a list of strings that all the values 
-            List<List<string>> tempcharacterList = new List<List<string>>();
+                //String that will become the json file
+                string filelines = "";
 
-            //Parsing the JArray and getting all the values within the objects witihn
-            foreach (JObject i in o.GetValue("Phrases"))
-            {
-                List<string> templist = new List<string>();
-                foreach (KeyValuePair<string, JToken> property in i)
-                {                 
-                    //Console.WriteLine(property.Value);       
-                    
-                    //Adding the value to the temporary string list
-                    templist.Add(property.Value.ToString());
+                //Shamelessly creating a string that is just the json file that will be converted to a JSON object
+                foreach (string line in File.ReadAllLines(_config["CharacterInfoFile"]))
+                {
+                    filelines = filelines + line + "\n";
                 }
-                //Adding the list to the list list, of strings
-                tempcharacterList.Add(templist);         
-            }
-            //shhh!
-            //Console.WriteLine("boop");
 
-            //Outputting the list
-            return tempcharacterList;
+                //Making the file's most outter object into a JObject
+                JObject o = JObject.Parse(filelines);
+
+                //Temporary list of a list of strings that all the values 
+                List<List<string>> tempcharacterList = new List<List<string>>();
+
+                //Parsing the JArray and getting all the values within the objects witihn
+                foreach (JObject i in o.GetValue("Phrases"))
+                {
+                    List<string> templist = new List<string>();
+                    foreach (KeyValuePair<string, JToken> property in i)
+                    {
+                        //Console.WriteLine(property.Value);       
+
+                        //Adding the value to the temporary string list
+                        templist.Add(property.Value.ToString());
+                    }
+                    //Adding the list to the list list, of strings
+                    tempcharacterList.Add(templist);
+                }
+                //shhh!
+                //Console.WriteLine("boop");
+
+                //Outputting the list
+                return tempcharacterList;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error with returning character phrases information \n" + ex);
+                return null;
+            }
         }
 
         //Making a request and responding accordingly
@@ -100,56 +118,64 @@ namespace DiscordBot1
             //Keeping just in case the wavs are zipped with gzip n' co
             //handler.AutomaticDecompression = ~DecompressionMethods.None;
 
-            //Creaing a HTTP client using the HTTP handler
-            using (var httpClient = new HttpClient(handler))
+            //Catching errors
+            try
             {
-                using (var request = new HttpRequestMessage(new HttpMethod("POST"), "https://api.fifteen.ai/app/getAudioFile"))
+                //Creaing a HTTP client using the HTTP handler
+                using (var httpClient = new HttpClient(handler))
                 {
-                    //request.Headers.TryAddWithoutValidation("user-agent", "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Mobile Safari/537.36");
-                    
-                    //Setting headers/ POST content to use the API
-                    request.Headers.TryAddWithoutValidation("user-agent", "FifteenCLI");
-                    request.Content = new StringContent("{\"text\":\"" + basemessage + "\",\"character\":\"" + character + "\" ,\"emotion\":\"" + emotion + "\"}");
-                    request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json;charset=UTF-8");
-                    //Storing the response as a variable to be made into a byte array
-                    var response = await httpClient.SendAsync(request);
-
-                    //Checking if the request came back OK
-                    if (response.StatusCode.ToString() != "OK")
+                    using (var request = new HttpRequestMessage(new HttpMethod("POST"), "https://api.fifteen.ai/app/getAudioFile"))
                     {
-                        //Responding to error msg given
-                        Console.WriteLine(response.StatusCode.ToString());
+                        //request.Headers.TryAddWithoutValidation("user-agent", "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Mobile Safari/537.36");
 
-                        //Either sending the message again or letting the user know that the request they made didn't work
-                        if (RequestTries == 3)
+                        //Setting headers/ POST content to use the API
+                        request.Headers.TryAddWithoutValidation("user-agent", "FifteenCLI");
+                        request.Content = new StringContent("{\"text\":\"" + basemessage + "\",\"character\":\"" + character + "\" ,\"emotion\":\"" + emotion + "\"}");
+                        request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json;charset=UTF-8");
+                        //Storing the response as a variable to be made into a byte array
+                        var response = await httpClient.SendAsync(request);
+
+                        //Checking if the request came back OK
+                        if (response.StatusCode.ToString() != "OK")
                         {
-                            await message.Channel.SendMessageAsync("Error! The API didn't respond!");
+                            //Responding to error msg given
+                            Console.WriteLine(response.StatusCode.ToString());
+
+                            //Either sending the message again or letting the user know that the request they made didn't work
+                            if (RequestTries == 3)
+                            {
+                                await message.Channel.SendMessageAsync("Error! The API didn't respond!");
+                            }
+                            else
+                            {
+                                //Waiting 10 seconds (There are better methods of waiting ik but a 1 liner suits me for now)
+                                Console.WriteLine("Will send again");
+                                Thread.Sleep(10000);
+
+                                //Sending the request again                      
+                                Console.WriteLine("Sending");
+                                RequestTries = RequestTries + 1;
+                                Console.WriteLine(RequestTries);
+                                _ = MakerequestAsync(position, character, basemessage, message, emotion, uncpath, RequestTries);
+                            }
                         }
                         else
                         {
-                            //Waiting 10 seconds (There are better methods of waiting ik but a 1 liner suits me for now)
-                            Console.WriteLine("Will send again");
-                            Thread.Sleep(10000);
+                            //Responding with OK
+                            Console.WriteLine(response.StatusCode.ToString());
 
-                            //Sending the request again                      
-                            Console.WriteLine("Sending");
-                            RequestTries = RequestTries + 1;
-                            Console.WriteLine(RequestTries);
-                            _ = MakerequestAsync(position, character, basemessage, message, emotion, uncpath, RequestTries);
-                        }                        
-                    }
-                    else
-                    {
-
-                        //Responding with OK
-                        Console.WriteLine(response.StatusCode.ToString());
-
-                        //Storing the audio file locally and posting the file as a message on Discord
-                        byte[] data = await response.Content.ReadAsByteArrayAsync();
-                        System.IO.File.WriteAllBytes(uncpath, data);
-                        await message.Channel.SendFileAsync(uncpath, "Test");
+                            //Storing the audio file locally and posting the file as a message on Discord
+                            byte[] data = await response.Content.ReadAsByteArrayAsync();
+                            System.IO.File.WriteAllBytes(uncpath, data);
+                            await message.Channel.SendFileAsync(uncpath, "Test");
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error making request to 15.ai");
+                await message.Channel.SendMessageAsync("Error! The 15.ai API didn't respond!");
             }
         }
     }
@@ -201,12 +227,20 @@ namespace DiscordBot1
             //Creating a JObject to hold custom API data
             requestclass.CustomAPIObject = requestclass.PopulateCustomAPIObject();
 
-            //This is where we get the Token value from the configuration file           
-            await _client.LoginAsync(TokenType.Bot, _config["Token"]);
-            await _client.StartAsync();
-      
-            // Block the program until it is closed.
-            await Task.Delay(-1);
+            //Not continuing if an error occurs
+            if (requestclass.Characterinfo == null || requestclass.CustomAPIObject == null)
+            {
+                Console.WriteLine("Error! The character/ custom API information returned an error!");
+            }
+            else
+            {
+                //This is where we get the Token value from the configuration file           
+                await _client.LoginAsync(TokenType.Bot, _config["Token"]);
+                await _client.StartAsync();
+
+                // Block the program until it is closed.
+                await Task.Delay(-1);
+            }
         }
 
         //Task that returns Discord Logs
@@ -232,7 +266,7 @@ namespace DiscordBot1
             for (int i = 0; i < stringLength; i += chunkSize)
             {
                 if (i + chunkSize > stringLength) chunkSize = stringLength - i;
-                Console.WriteLine(basemessage.Substring(i, chunkSize));
+                //Console.WriteLine(basemessage.Substring(i, chunkSize));
                 messagelist.Add(basemessage.Substring(i, chunkSize) + ".");
             }
             return messagelist;
@@ -240,52 +274,60 @@ namespace DiscordBot1
 
         //Function to make a request to wikipedia's REST API and returning a text summary that will then be put through 15.ai's API
         private async Task<string> WikiRequestAsync(string basemessage)
-        {         
-            //Declaring handler
-            var handler = new HttpClientHandler();
-
-            //Keeping just in case the wavs are zipped with gzip n' co
-            //handler.AutomaticDecompression = ~DecompressionMethods.None;
-
-            //Setting string to the wiki page's request + the text the user wanted to have the character tell them about
-            string apirequest = "https://en.wikipedia.org/api/rest_v1/page/summary/" + basemessage;
-            //Console.WriteLine(apirequest);        
-
-            //Declaring HTTP clients to handle making GET requests
-            using (var httpClient = new HttpClient(handler))
+        {
+            try
             {
-                using (var request = new HttpRequestMessage(new HttpMethod("GET"), apirequest))
+                //Declaring handler
+                var handler = new HttpClientHandler();
+
+                //Keeping just in case the wavs are zipped with gzip n' co
+                //handler.AutomaticDecompression = ~DecompressionMethods.None;
+
+                //Setting string to the wiki page's request + the text the user wanted to have the character tell them about
+                string apirequest = "https://en.wikipedia.org/api/rest_v1/page/summary/" + basemessage;
+                //Console.WriteLine(apirequest);        
+
+                //Declaring HTTP clients to handle making GET requests
+                using (var httpClient = new HttpClient(handler))
                 {
-                    //Console.WriteLine(request);
-                    //Making the request to the API
-                    var response = await httpClient.SendAsync(request);
-
-                    //Checking if a 200 response is given
-                    if (response.StatusCode.ToString() != "OK")
+                    using (var request = new HttpRequestMessage(new HttpMethod("GET"), apirequest))
                     {
-                        //Responding to error msg given
-                        Console.WriteLine(response.StatusCode.ToString());
-                        
-                        //Erroring immidiately to make sure not too much time is taken up                    
-                        return null;
-                    }
-                    else
-                    {
-                        //Getting the response body, parsing the JSON within and making sure that it can be used in a 15.ai POST request 
-                        string responsejsonstring = await response.Content.ReadAsStringAsync();
-                        //Console.WriteLine(responsejsonstring);
+                        //Console.WriteLine(request);
+                        //Making the request to the API
+                        var response = await httpClient.SendAsync(request);
 
-                        //Making the content body into a JObject to be parsed from.
-                        JObject jo = JObject.Parse(responsejsonstring);
-                        string responseparsedjson = jo.GetValue("extract").ToString();
-                        //Console.WriteLine(responseparsedjson);
+                        //Checking if a 200 response is given
+                        if (response.StatusCode.ToString() != "OK")
+                        {
+                            //Responding to error msg given
+                            Console.WriteLine(response.StatusCode.ToString());
 
-                        //Removing any characters from the string that might break the call to 15.ai and sending the string to the API.
-                        string cleanresponseparsedjson = CleanForAPI(responseparsedjson);
-                        //Console.WriteLine(cleanresponseparsedjson);
-                        return cleanresponseparsedjson;
+                            //Erroring immidiately to make sure not too much time is taken up                    
+                            return null;
+                        }
+                        else
+                        {
+                            //Getting the response body, parsing the JSON within and making sure that it can be used in a 15.ai POST request 
+                            string responsejsonstring = await response.Content.ReadAsStringAsync();
+                            //Console.WriteLine(responsejsonstring);
+
+                            //Making the content body into a JObject to be parsed from.
+                            JObject jo = JObject.Parse(responsejsonstring);
+                            string responseparsedjson = jo.GetValue("extract").ToString();
+                            //Console.WriteLine(responseparsedjson);
+
+                            //Removing any characters from the string that might break the call to 15.ai and sending the string to the API.
+                            string cleanresponseparsedjson = CleanForAPI(responseparsedjson);
+                            //Console.WriteLine(cleanresponseparsedjson);
+                            return cleanresponseparsedjson;
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error with Making a request to wikipedia!");
+                return null;
             }
         }
 
@@ -329,7 +371,8 @@ namespace DiscordBot1
                         _ = HandleMessageLength(JSONIndex, basemessage, message);
 
                         //Debug message to be uncommented if needed
-                        //await message.Channel.SendMessageAsync(requestclass.Characterinfo[i, 0] + "  " + requestclass.Characterinfo[i, 1] + "  " + requestclass.Characterinfo[i, 2]);                     
+                        //await message.Channel.SendMessageAsync(requestclass.Characterinfo[i, 0] + "  " + requestclass.Characterinfo[i, 1] + "  " + requestclass.Characterinfo[i, 2]); 
+
                     }
                     else if (requestclass.Characterinfo[JSONIndex][2] == "1")
                     {
@@ -339,16 +382,24 @@ namespace DiscordBot1
                         //Making a request to an the wikipedia API and returning the short description text
                         string respondedstring = await WikiRequestAsync(basemessage);
                         Thread.Sleep(3000);
-                        Console.WriteLine(requestclass.Characterinfo[JSONIndex][1] + " says : " + respondedstring);
-
-                        //Checking if the response was OK and erroring as such
+                        // Not continuing if there is an error
                         if (respondedstring == null)
                         {
-                            await message.Channel.SendMessageAsync("Error! The wiki didn't respond!");
+
                         }
                         else
                         {
-                            _ = HandleMessageLength(JSONIndex, basemessage, message);
+                            Console.WriteLine(requestclass.Characterinfo[JSONIndex][1] + " says : " + respondedstring);
+
+                            //Checking if the response was OK and erroring as such
+                            if (respondedstring == null)
+                            {
+                                await message.Channel.SendMessageAsync("Error! The wiki didn't respond!");
+                            }
+                            else
+                            {
+                                _ = HandleMessageLength(JSONIndex, basemessage, message);
+                            }
                         }
                     }
                     else if (requestclass.Characterinfo[JSONIndex][2] == "2")
@@ -366,7 +417,7 @@ namespace DiscordBot1
         private string ParsedString(int JSONIndex, SocketMessage message)
         {
             string parsedmessage = requestclass.Characterinfo[JSONIndex][0];
-            string basemessage = message.Content.Replace(parsedmessage, "");          
+            string basemessage = message.Content.Replace(parsedmessage, "");
             return basemessage;
         }
 
@@ -448,34 +499,41 @@ namespace DiscordBot1
                 //Checking the object referenece against the object reference in the character object given
                 if (ObjectReferenceValue.ToString() == CustomAPIRef)
                 {
-                    //Assigning the json values to the appropriats JSON tokens
-                    RequestTypeValue = jo.SelectToken("APIs.[" + JSONObjectIndex + "].ReqType");
-                    OutputTypeValue = jo.SelectToken("APIs.[" + JSONObjectIndex + "].OutputType");
-                    JSONPathValue = jo.SelectToken("APIs.[" + JSONObjectIndex + "].JSONPath");
-                    XMLPathValue = jo.SelectToken("APIs.[" + JSONObjectIndex + "].XMLPath");
+                    try
+                    {
+                        //Assigning the json values to the appropriats JSON tokens
+                        RequestTypeValue = jo.SelectToken("APIs.[" + JSONObjectIndex + "].ReqType");
+                        OutputTypeValue = jo.SelectToken("APIs.[" + JSONObjectIndex + "].OutputType");
+                        JSONPathValue = jo.SelectToken("APIs.[" + JSONObjectIndex + "].JSONPath");
+                        XMLPathValue = jo.SelectToken("APIs.[" + JSONObjectIndex + "].XMLPath");
 
-                    //Assigning the API call value and either adding the message or just assigning the call by itself
-                    string APICallstring = "";
-                    APICallValue = jo.SelectToken("APIs.[" + JSONObjectIndex + "].BaseAPICall");
-                    if (APICallValue.ToString().Contains("{0}"))
-                    {
-                        string basemessage = ParsedString(CharacterJSONIndex, message);
-                        APICallstring = APICallValue.ToString().Replace("{0}",basemessage);
+                        //Assigning the API call value and either adding the message or just assigning the call by itself
+                        string APICallstring = "";
+                        APICallValue = jo.SelectToken("APIs.[" + JSONObjectIndex + "].BaseAPICall");
+                        if (APICallValue.ToString().Contains("{0}"))
+                        {
+                            string basemessage = ParsedString(CharacterJSONIndex, message);
+                            APICallstring = APICallValue.ToString().Replace("{0}", basemessage);
+                        }
+                        else
+                        {
+                            APICallstring = APICallValue.ToString();
+                        }
+
+                        //Checking what request type the API is going to be used
+                        if (RequestTypeValue.ToString() == "GET")
+                        {
+                            await MakeGETCustomAPICall(CharacterJSONIndex, APICallstring, OutputTypeValue.ToString(), JSONPathValue.ToString(), XMLPathValue.ToString(), message);
+                            FoundAPI = true;
+                        }
+                        else
+                        {
+                            FoundAPI = true;
+                        }
                     }
-                    else 
+                    catch (Exception ex)
                     {
-                        APICallstring = APICallValue.ToString();
-                    }
-                                    
-                    //Checking what request type the API is going to be used
-                    if (RequestTypeValue.ToString() == "GET")
-                    {
-                        await MakeGETCustomAPICall(CharacterJSONIndex, APICallstring, OutputTypeValue.ToString(), JSONPathValue.ToString(), XMLPathValue.ToString(), message);
-                        FoundAPI = true;
-                    }
-                    else
-                    {
-                        FoundAPI = true;
+                        Console.WriteLine("Error handling custom API information " + ex);
                     }
                 }
                 //Incrementing the loop index
@@ -487,76 +545,81 @@ namespace DiscordBot1
 
         //Making a GET request and handling the output
         private async Task MakeGETCustomAPICall(int CharacterJSONIndex, string APICall, string OutputType, string JSONPath, string XMLPath, SocketMessage message)
-        {      
-            //Declaring handler
-            var handler = new HttpClientHandler();
-      
-            //Declaring HTTP clients to handle making GET requests 
-            using (var httpClient = new HttpClient(handler))
-            {
-                using (var request = new HttpRequestMessage(new HttpMethod("GET"), APICall))
+        {
+            try {
+                //Declaring handler
+                var handler = new HttpClientHandler();
+
+                //Declaring HTTP clients to handle making GET requests 
+                using (var httpClient = new HttpClient(handler))
                 {
-                    //Console.WriteLine(request);
-
-                    //Making the request to the API
-                    var response = await httpClient.SendAsync(request);
-
-                    //Checking if a 200 response is given
-                    if (response.StatusCode.ToString() != "OK")
+                    using (var request = new HttpRequestMessage(new HttpMethod("GET"), APICall))
                     {
-                        //Responding to error msg given
-                        Console.WriteLine(response.StatusCode.ToString());
+                        //Console.WriteLine(request);
 
-                        //Erroring immidiately to make sure not too much time is taken up                    
-                        await message.Channel.SendMessageAsync("Error! The API didn't respond correctly!");
+                        //Making the request to the API
+                        var response = await httpClient.SendAsync(request);
 
-                    }
-                    else
-                    {
-                        //Getting the response body, parsing the JSON within and making sure that it can be used in a 15.ai POST request 
-                        string responsestring = await response.Content.ReadAsStringAsync();
-
-                        //Checking what output format is and parsing accordingly.
-                        if (OutputType == "JSON")
+                        //Checking if a 200 response is given
+                        if (response.StatusCode.ToString() != "OK")
                         {
-                            //Making the content body into a JObject to be parsed from.
-                            //Console.WriteLine(responsejsonstring);
-                            JObject jo = JObject.Parse(responsestring);
-                            //string responseparsedjson = jo.GetValue("extract").ToString();
+                            //Responding to error msg given
+                            Console.WriteLine(response.StatusCode.ToString());
 
-                            //Parsing the JToken from the JObject and pulling the string value from the token.
-                            JToken pathResult = jo.SelectToken(JSONPath);
-                            string responseparsedjson = pathResult.ToString();
-                            //Console.WriteLine(responseparsedjson);
+                            //Erroring immidiately to make sure not too much time is taken up                    
+                            await message.Channel.SendMessageAsync("Error! The API didn't respond correctly!");
 
-                            //Removing any characters from the string that might break the call to 15.ai and sending the string to the API.
-                            string cleanresponseparsedjson = CleanForAPI(responseparsedjson);
-                            Console.WriteLine(cleanresponseparsedjson);
-                            //await HandleMessageLength(CharacterJSONIndex, cleanresponseparsedjson, message);
                         }
                         else
                         {
-                            //Links to sources used in order to read XML:                            
-                            //https://stackoverflow.com/questions/1444809/extracting-an-xml-element-from-an-xml-file-using-xpath
-                            //Browser extention to get XPath from page: https://microsoftedge.microsoft.com/addons/detail/xml-tree/oaejbeendohihffilopfgmgigfbgnknf?hl=en-GB
+                            //Getting the response body, parsing the JSON within and making sure that it can be used in a 15.ai POST request 
+                            string responsestring = await response.Content.ReadAsStringAsync();
 
-                            //Declaring an xml document and passing the response body into it
-                            XmlDocument xmlDoc = new XmlDocument();
-                            xmlDoc.LoadXml(responsestring);                           
+                            //Checking what output format is and parsing accordingly.
+                            if (OutputType == "JSON")
+                            {
+                                //Making the content body into a JObject to be parsed from.
+                                //Console.WriteLine(responsejsonstring);
+                                JObject jo = JObject.Parse(responsestring);
+                                //string responseparsedjson = jo.GetValue("extract").ToString();
 
-                            //Selectnig a node using the given XML Xpath and retreiving its string value
-                            XmlNode node = xmlDoc.SelectSingleNode(XMLPath);
-                            string responseparsedXML = node.InnerText;
-                            string cleanresponseparsedXML = CleanForAPI(responseparsedXML);
-                            //Console.WriteLine(cleanresponseparsedXML);
+                                //Parsing the JToken from the JObject and pulling the string value from the token.
+                                JToken pathResult = jo.SelectToken(JSONPath);
+                                string responseparsedjson = pathResult.ToString();
+                                //Console.WriteLine(responseparsedjson);
 
-                            //Sending the string to the 15.ai API
-                            //await HandleMessageLength(CharacterJSONIndex,cleanresponseparsedXML,message);
+                                //Removing any characters from the string that might break the call to 15.ai and sending the string to the API.
+                                string cleanresponseparsedjson = CleanForAPI(responseparsedjson);
+                                Console.WriteLine(cleanresponseparsedjson);
+                                await HandleMessageLength(CharacterJSONIndex, cleanresponseparsedjson, message);
+                            }
+                            else
+                            {
+                                //Links to sources used in order to read XML:                            
+                                //https://stackoverflow.com/questions/1444809/extracting-an-xml-element-from-an-xml-file-using-xpath
+                                //Browser extention to get XPath from page: https://microsoftedge.microsoft.com/addons/detail/xml-tree/oaejbeendohihffilopfgmgigfbgnknf?hl=en-GB
+
+                                //Declaring an xml document and passing the response body into it
+                                XmlDocument xmlDoc = new XmlDocument();
+                                xmlDoc.LoadXml(responsestring);
+
+                                //Selectnig a node using the given XML Xpath and retreiving its string value
+                                XmlNode node = xmlDoc.SelectSingleNode(XMLPath);
+                                string responseparsedXML = node.InnerText;
+                                string cleanresponseparsedXML = CleanForAPI(responseparsedXML);
+                                //Console.WriteLine(cleanresponseparsedXML);
+
+                                //Sending the string to the 15.ai API
+                                await HandleMessageLength(CharacterJSONIndex,cleanresponseparsedXML,message);
+                            }
                         }
-                        
                     }
                 }
-            }            
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error with making a request to the custom API " + ex);
+            }
         }
         
         //Function that cleans strings so that they can be passed to the 15.ai API
@@ -572,7 +635,6 @@ namespace DiscordBot1
             tempcleanresponseparsed = tempcleanresponseparsed.Replace("\r", "");
             return tempcleanresponseparsed;
         }
-
 
 
     }
