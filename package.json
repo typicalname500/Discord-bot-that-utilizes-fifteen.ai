@@ -1,0 +1,26 @@
+{
+  "name": "discord-bot-template",
+  "version": "1.0.0",
+  "description": "A Discord bot template",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "discord",
+    "bot"
+  ],
+  "author": "Tony (zfbTony)",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^11.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zfbTony/Discord-Bot-Template.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zfbTony/Discord-Bot-Template/issues"
+  },
+  "homepage": "https://github.com/zfbTony/Discord-Bot-Template#readme"
+}

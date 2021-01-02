@@ -1,0 +1,902 @@
+{
+    "Phrases": 
+    [
+        {
+            "Phrase": "Hey Twilight Sparkle, say ",
+            "Character": "Twilight Sparkle",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Fluttershy, say ",
+            "Character": "Fluttershy",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Rarity, say",
+            "Character": "Rarity",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Rainbow Dash, say ",
+            "Character": "Rainbow Dash",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Pinkie Pie, say ",
+            "Character": "Pinkie Pie",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Applejack, say ",
+            "Character": "Applejack",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Princess Celestia, say ",
+            "Character": "Princess Celestia",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Princess Luna, say ",
+            "Character": "Princess Luna",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Starlight Glimmer, say ",
+            "Character": "Starlight Glimmer",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Trixie, say ",
+            "Character": "Trixie",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Spike, say ",
+            "Character": "Spike",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Apple Bloom, say ",
+            "Character": "Apple Bloom",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Sweetie Belle, say ",
+            "Character": "Sweetie Belle",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Scootaloo, say ",
+            "Character": "Scootaloo",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Lyra, say ",
+            "Character": "Lyra",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Bon Bon, say ",
+            "Character": "Bon Bon",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Minuette, say ",
+            "Character": "Minuette",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Princess Cadance, say ",
+            "Character": "Princess Cadance",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Spitfire, say ",
+            "Character": "Spitfire",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Derpy Hooves, say ",
+            "Character": "Derpy Hooves",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Cheerilee, say ",
+            "Character": "Cheerilee",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Zecora, say ",
+            "Character": "Zecora",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Coco Pommel, say ",
+            "Character": "Coco Pommel",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Maud Pie, say ",
+            "Character": "Maud Pie",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Sugar Belle, say ",
+            "Character": "Sugar Belle",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Vapor Trail, say ",
+            "Character": "Vapor Trail",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Moondancer, say ",
+            "Character": "Moondancer",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Cozy Glow, say ",
+            "Character": "Cozy Glow",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Queen Chrysalis, say ",
+            "Character": "Queen Chrysalis",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Lightning Dust, say ",
+            "Character": "Lightning Dust",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Discord, say ",
+            "Character": "Discord",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Snips, say ",
+            "Character": "Snips",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Snails, say ",
+            "Character": "Snails",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Soarin', say ",
+            "Character": "Soarin'",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Big Mac, say ",
+            "Character": "Big Mac",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Shining Armor, say ",
+            "Character": "Shining Armor",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Sunburst, say ",
+            "Character": "Sunburst",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Diamond Tiara, say ",
+            "Character": "Diamond Tiara",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Silver Spoon, say ",
+            "Character": "Silver Spoon",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Octavia, say ",
+            "Character": "Octavia",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Gilda, say ",
+            "Character": "Gilda",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Gabby, say ",
+            "Character": "Gabby",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Limestone Pie, say ",
+            "Character": "Limestone Pie",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Braeburn, say ",
+            "Character": "Braeburn",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Daring Do, say ",
+            "Character": "Daring Do",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey GLaDOS, say ",
+            "Character": "GLaDOS",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Wheatley, say ",
+            "Character": "Wheatley",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Sentry Turret, say ",
+            "Character": "Sentry Turret",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey SpongeBob SquarePants, say ",
+            "Character": "SpongeBob SquarePants",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Miss Pauling, say ",
+            "Character": "Miss Pauling",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Scout, say ",
+            "Character": "Scout",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Soldier, say ",
+            "Character": "Soldier",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Demoman, say ",
+            "Character": "Demoman",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Heavy, say ",
+            "Character": "Heavy",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Engineer, say ",
+            "Character": "Engineer",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Medic, say ",
+            "Character": "Medic",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Sniper, say ",
+            "Character": "Sniper",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Spy, say ",
+            "Character": "Spy",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Administrator, say ",
+            "Character": "Administrator",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Rise Kujikawa, say ",
+            "Character": "Rise Kujikawa",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Kyu Sugardust, say ",
+            "Character": "Kyu Sugardust",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Daria Morgendorffer, say ",
+            "Character": "Daria Morgendorffer",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Jane Lane, say ",
+            "Character": "Jane Lane",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Steven Universe, say ",
+            "Character": "Steven Universe",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey HAL 9000, say ",
+            "Character": "HAL 9000",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey The Narrator, say ",
+            "Character": "The Narrator",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Carl Brutananadilewski, say ",
+            "Character": "Carl Brutananadilewski",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Tenth Doctor, say ",
+            "Character": "Tenth Doctor",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Dan, say ",
+            "Character": "Dan",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Sunset Shimmer, say ",
+            "Character": "Sunset Shimmer",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Adagio Dazzle, say ",
+            "Character": "Adagio Dazzle",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Aria Blaze, say ",
+            "Character": "Aria Blaze",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Sonata Dusk, say ",
+            "Character": "Sonata Dusk",
+            "Function": "0",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Twilight Sparkle, tell me about ",
+            "Character": "Twilight Sparkle",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Fluttershy, tell me about ",
+            "Character": "Fluttershy",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Rarity, say",
+            "Character": "Rarity",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Rainbow Dash, tell me about ",
+            "Character": "Rainbow Dash",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Pinkie Pie, tell me about ",
+            "Character": "Pinkie Pie",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Applejack, tell me about ",
+            "Character": "Applejack",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Princess Celestia, tell me about ",
+            "Character": "Princess Celestia",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Princess Luna, tell me about ",
+            "Character": "Princess Luna",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Starlight Glimmer, tell me about ",
+            "Character": "Starlight Glimmer",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Trixie, tell me about ",
+            "Character": "Trixie",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Spike, tell me about ",
+            "Character": "Spike",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Apple Bloom, tell me about ",
+            "Character": "Apple Bloom",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Sweetie Belle, tell me about ",
+            "Character": "Sweetie Belle",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Scootaloo, tell me about ",
+            "Character": "Scootaloo",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Lyra, tell me about ",
+            "Character": "Lyra",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Bon Bon, tell me about ",
+            "Character": "Bon Bon",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Minuette, tell me about ",
+            "Character": "Minuette",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Princess Cadance, tell me about ",
+            "Character": "Princess Cadance",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Spitfire, tell me about ",
+            "Character": "Spitfire",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Derpy Hooves, tell me about ",
+            "Character": "Derpy Hooves",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Cheerilee, tell me about ",
+            "Character": "Cheerilee",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Zecora, tell me about ",
+            "Character": "Zecora",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Coco Pommel, tell me about ",
+            "Character": "Coco Pommel",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Maud Pie, tell me about ",
+            "Character": "Maud Pie",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Sugar Belle, tell me about ",
+            "Character": "Sugar Belle",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Vapor Trail, tell me about ",
+            "Character": "Vapor Trail",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Moondancer, tell me about ",
+            "Character": "Moondancer",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Cozy Glow, tell me about ",
+            "Character": "Cozy Glow",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Queen Chrysalis, tell me about ",
+            "Character": "Queen Chrysalis",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Lightning Dust, tell me about ",
+            "Character": "Lightning Dust",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Discord, tell me about ",
+            "Character": "Discord",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Snips, tell me about ",
+            "Character": "Snips",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Snails, tell me about ",
+            "Character": "Snails",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Soarin', tell me about ",
+            "Character": "Soarin'",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Big Mac, tell me about ",
+            "Character": "Big Mac",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Shining Armor, tell me about ",
+            "Character": "Shining Armor",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Sunburst, tell me about ",
+            "Character": "Sunburst",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Diamond Tiara, tell me about ",
+            "Character": "Diamond Tiara",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Silver Spoon, tell me about ",
+            "Character": "Silver Spoon",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Octavia, tell me about ",
+            "Character": "Octavia",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Gilda, tell me about ",
+            "Character": "Gilda",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Gabby, tell me about ",
+            "Character": "Gabby",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Limestone Pie, tell me about ",
+            "Character": "Limestone Pie",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Braeburn, tell me about ",
+            "Character": "Braeburn",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Daring Do, tell me about ",
+            "Character": "Daring Do",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey GLaDOS, tell me about ",
+            "Character": "GLaDOS",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Wheatley, tell me about ",
+            "Character": "Wheatley",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Sentry Turret, tell me about ",
+            "Character": "Sentry Turret",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey SpongeBob SquarePants, tell me about ",
+            "Character": "SpongeBob SquarePants",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Miss Pauling, tell me about ",
+            "Character": "Miss Pauling",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Scout, tell me about ",
+            "Character": "Scout",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Soldier, tell me about ",
+            "Character": "Soldier",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Demoman, tell me about ",
+            "Character": "Demoman",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Heavy, tell me about ",
+            "Character": "Heavy",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Engineer, tell me about ",
+            "Character": "Engineer",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Medic, tell me about ",
+            "Character": "Medic",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Sniper, tell me about ",
+            "Character": "Sniper",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Spy, tell me about ",
+            "Character": "Spy",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Administrator, tell me about ",
+            "Character": "Administrator",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Rise Kujikawa, tell me about ",
+            "Character": "Rise Kujikawa",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Kyu Sugardust, tell me about ",
+            "Character": "Kyu Sugardust",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Daria Morgendorffer, tell me about ",
+            "Character": "Daria Morgendorffer",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Jane Lane, tell me about ",
+            "Character": "Jane Lane",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Steven Universe, tell me about ",
+            "Character": "Steven Universe",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey HAL 9000, tell me about ",
+            "Character": "HAL 9000",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey The Narrator, tell me about ",
+            "Character": "The Narrator",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Carl Brutananadilewski, tell me about ",
+            "Character": "Carl Brutananadilewski",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Tenth Doctor, tell me about ",
+            "Character": "Tenth Doctor",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Dan, tell me about ",
+            "Character": "Dan",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Sunset Shimmer, tell me about ",
+            "Character": "Sunset Shimmer",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Adagio Dazzle, tell me about ",
+            "Character": "Adagio Dazzle",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Aria Blaze, tell me about ",
+            "Character": "Aria Blaze",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey Sonata Dusk, tell me about ",
+            "Character": "Sonata Dusk",
+            "Function": "1",
+            "Emotion":"Neutral"
+        },
+        {
+            "Phrase": "Hey GLaDOS, Tell me a cat fact",
+            "Character": "GLaDOS",
+            "Function": "2",           
+            "Emotion":"Neutral",            
+            "APIReference":"Catfacts"
+        },
+        {
+            "Phrase": "Hey GLaDOS, Give me an extract from a bibliography",
+            "Character": "GLaDOS",
+            "Function": "2",           
+            "Emotion":"Neutral",            
+            "APIReference":"BibliographyExtract"
+        },
+        {
+            "Phrase": "Hey GLaDOS, give me an animal fact about ",
+            "Character": "GLaDOS",
+            "Function": "2",           
+            "Emotion":"Neutral",            
+            "APIReference":"Animalfacts"
+        }
+    ]
+}
