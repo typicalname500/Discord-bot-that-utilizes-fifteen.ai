@@ -1,4 +1,4 @@
-# Discord-bot-that-utilizes-fifteen.ai
+# C# Discord-bot-that-utilizes-fifteen.ai
 This is a python discord bot that utilises POST requests made to https://fifteen.ai/app/getAudioFile which responds with wav files that are posted onto the server.
 
 # Installation 
@@ -9,19 +9,21 @@ This is a python discord bot that utilises POST requests made to https://fifteen
 Discord token: https://discord.com/developers/applications
 
 4. Enter the following: 
-  {
+```json
+{
   "Token": "",
   "Prefix": ";",
-  "CharacterInfoFile": "C:\\ProgramLocation\characters.json",
+  "CharacterInfoFile": "C:\\ProgramLocation\\characters.json",
   "SingleAudiofilepath": "C:\\Test Directory\\"
 }
+```
 
 # Custom API configuration:
 1. Add a new quote to the Characters.json file and add the following:
 ```json
 {
   "Phrase": "Custom Quote",
-  "Character": "Sonata Dusk",
+  "Character": "Your prefered character",
   "Function": "2",
   "Emotion":"Neutral",
   "APIReference":"CustomAPIReference"
