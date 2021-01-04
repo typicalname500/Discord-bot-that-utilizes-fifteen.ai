@@ -11,6 +11,7 @@ import time
 import json
 import asyncio
 import re
+import datetime
 
 #Opening JSON files and storing information as object variables
 with open('characters.json') as json_file:
@@ -25,22 +26,21 @@ with open('TokenConfig.json') as json_file:
         data = json.load(json_file)
         Token_info = data 
 
-#Setting the fifteen.ai post request headers
 headers = {
-    'authority': 'api.fifteen.ai',
-    'access-control-allow-origin': '*',
-    'accept': 'application/json, text/plain, */*',
-    'sec-fetch-dest': 'empty',
-    'user-agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Mobile Safari/537.36',
-    'dnt': '1',
-    'content-type': 'application/json;charset=UTF-8',
-    'origin': 'https://fifteen.ai',
-    'sec-fetch-site': 'same-site',
-    'sec-fetch-mode': 'cors',
-    'referer': 'https://fifteen.ai/app',
-    'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
+   'authority': 'api.15.ai',
+   'access-control-allow-origin': '*',
+   'accept': 'application/json, text/plain, */*',
+   'dnt': '1',
+   'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36 Edg/87.0.664.66',
+   'content-type': 'application/json;charset=UTF-8',
+   'origin': 'https://15.ai',
+   'sec-fetch-site': 'same-site',
+   'sec-fetch-mode': 'cors',
+   'sec-fetch-dest': 'empty',
+   'referer': 'https://15.ai/',
+   'accept-language': 'en-GB,en;q=0.9,en-US;q=0.8'
 }
-
+  
 #Establishes client connection
 client = discord.Client()
 
@@ -81,22 +81,49 @@ async def on_message(message):
         ObjectIndex = ObjectIndex + 1
 
 #Function to make a request to the 15.ai api and handle the output
-async def Make15APIRequest(MessageText,CharacterIndex,message,RequestTries):   
+async def Make15APIRequest(MessageText,CharacterIndex,message,RequestTries,FileName):   
     print(Character_info['Phrases'][CharacterIndex]['Character'] + " says: " +MessageText)
     
     #Variable to store POST content to use within the request
-    data = '{"text":"%s","character":"%s","emotion":"%s"}' % (MessageText+".", Character_info['Phrases'][CharacterIndex]['Character'], Character_info['Phrases'][CharacterIndex]['Emotion'])
-
+    data = '{"text":"%s","character":"%s","emotion":"%s","use_diagonal":%s}' % (MessageText+".", Character_info['Phrases'][CharacterIndex]['Character'], Character_info['Phrases'][CharacterIndex]['Emotion'],Character_info['Phrases'][CharacterIndex]['use_diagonal'])
     #Debug print that shows the data section (makes sure the correct sting is passed)
     #print(data)
+    try:
+        #Constructing the request, passing in the headers and the data
+        response = requests.post('https://api.15.ai/app/getAudioFile', headers=headers, data=data)       
+        #print('response recevied!')            
+        #Checking if the api responds with a 500/ server error message
+        if response.status_code != 200:
+            print('15.ai response error!')
+            #print(response.text)
+            #Checking if 3 bad responses have been made and erroring as such
+            if RequestTries >= 3:
+                await message.channel.send('Something went wrong with making a call to 15.ai!')
+            else:
+                #Waiting 10 seconds and sending the request again
+                await asyncio.sleep(10) #https://stackoverflow.com/questions/42279675/synchronous-sleep-into-asyncio-coroutine#:~:text=then%20your_sync_function%20is%20running%20in%20a%20separate%20thread,,into%20the%20janus%20library.%20More%20tips%20on%20this:
+                TempRequestTries = RequestTries + 1
+                print(TempRequestTries)
+                asyncio.create_task(Make15APIRequest(MessageText,CharacterIndex,message,TempRequestTries))
+        else:
+            #Creating a wav file with the response content and posting the response on discord 
+            with open(FileName, 'wb') as file:
+                #Saving the response as a wav file      
+                file.write(response.content)
+            
+                #Text to be entered with file \/  file being specified \/
+                await message.channel.send('Test',file=discord.File(FileName))      
+                #Debug checking status code of response (403 may mean there will need to be a change to the request)
+                #await message.channel.send(response.status_code)
 
-    #Constructing the request, passing in the headers and the data
-    response = requests.post('https://api.fifteen.ai/app/getAudioFile', headers=headers, data=data)       
-    #print('response recevied!')            
-    #Checking if the api responds with a 500/ server error message
-    if response.status_code != 200:
+            #Removing the file once it has been posted
+            #os.remove("test1.wav")
+            os.remove(FileName)
+            #print("File Removed!")
+            #break
+    except Exception as inst:
         print('15.ai response error!')
-        
+        #print(response.text)
         #Checking if 3 bad responses have been made and erroring as such
         if RequestTries >= 3:
             await message.channel.send('Something went wrong with making a call to 15.ai!')
@@ -106,21 +133,6 @@ async def Make15APIRequest(MessageText,CharacterIndex,message,RequestTries):
             TempRequestTries = RequestTries + 1
             print(TempRequestTries)
             asyncio.create_task(Make15APIRequest(MessageText,CharacterIndex,message,TempRequestTries))
-    else:
-        #Creating a wav file with the response content and posting the response on discord 
-        with open('test1.wav', 'wb') as file:
-            #Saving the response as a wav file      
-            file.write(response.content)
-            
-            #Text to be entered with file \/  file being specified \/
-            await message.channel.send('Test',file=discord.File('test1.wav'))
-            #Debug checking status code of response (403 may mean there will need to be a change to the request)
-            #await message.channel.send(response.status_code)
-
-        #Removing the file once it has been posted
-        os.remove("test1.wav")
-        #print("File Removed!")
-        #break
 
 #Function that makes a GET request to the Wikipedia API and then using the parsed text within a POST request to 15.ai
 async def MakeWikiRequest(GivenPrompt,message,ObjectIndex):
@@ -147,18 +159,23 @@ async def MakeWikiRequest(GivenPrompt,message,ObjectIndex):
 async def HandleMessageLength(GivenText,ObjectIndex,message):
     GivenText = await CleanStrings(GivenText)
     print(GivenText)
-    #Checking if the text is above 73 characters (15.ai character limit)
-    if len(GivenText) <= 73:
+    current_date = datetime.datetime.now()    
+    FileName = 'TempAudio' + str(current_date.microsecond) + '.wav'   
+    #Checking if the text is above 200 characters (15.ai character limit)
+    if len(GivenText) <= 275:
         #Making a single request to 15.ai
-        asyncio.create_task(Make15APIRequest(GivenText,ObjectIndex,message,0))
+        asyncio.create_task(Make15APIRequest(GivenText,ObjectIndex,message,0,FileName))
     else:
         #Character "Chunk" number
-        n = 73
+        n = 275
         # Using list comprehension to split the string into 73 chharacter "chunks" (https://pythonexamples.org/python-split-string-into-specific-length-chunks/)
         out = [(GivenText[i:i+n]) for i in range(0, len(GivenText), n)]
         for Substring in out:
+            current_date = datetime.datetime.now()         
+            FileName = 'TempAudio' + str(current_date.microsecond) + '.wav'
+            print(FileName)
             #print(Substring)
-            asyncio.create_task(Make15APIRequest(Substring,ObjectIndex,message,0))
+            asyncio.create_task(Make15APIRequest(Substring,ObjectIndex,message,0,FileName))
         
 #Function to handle what custom API should be being used and what API call should be used
 async def HandleCustomAPIInfo(GivenText,CustomAPIReference,message,ObjectIndex):
