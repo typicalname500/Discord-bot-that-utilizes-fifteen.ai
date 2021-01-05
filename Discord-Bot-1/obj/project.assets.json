@@ -3140,11 +3140,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Tom\\Documents\\GitHub\\Discord-bot-that-utilizes-fifteen.ai C#\\Discord-Bot-1\\DiscordBot1.csproj",
+      "projectUniqueName": "C:\\Users\\Tom\\Documents\\GitHub\\Discord-bot-that-utilizes-fifteen.ai C#\\Discord-bot-that-utilizes-fifteen.ai\\Discord-Bot-1\\DiscordBot1.csproj",
       "projectName": "DiscordBot1",
-      "projectPath": "C:\\Users\\Tom\\Documents\\GitHub\\Discord-bot-that-utilizes-fifteen.ai C#\\Discord-Bot-1\\DiscordBot1.csproj",
+      "projectPath": "C:\\Users\\Tom\\Documents\\GitHub\\Discord-bot-that-utilizes-fifteen.ai C#\\Discord-bot-that-utilizes-fifteen.ai\\Discord-Bot-1\\DiscordBot1.csproj",
       "packagesPath": "C:\\Users\\Tom\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Tom\\Documents\\GitHub\\Discord-bot-that-utilizes-fifteen.ai C#\\Discord-Bot-1\\obj\\",
+      "outputPath": "C:\\Users\\Tom\\Documents\\GitHub\\Discord-bot-that-utilizes-fifteen.ai C#\\Discord-bot-that-utilizes-fifteen.ai\\Discord-Bot-1\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

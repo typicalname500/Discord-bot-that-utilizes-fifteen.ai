@@ -30,7 +30,7 @@ namespace DiscordBot1
     public class RequestFunctions
     {             
         //public string[,] Characterinfo;       
-        public List<List<string>> Characterinfo = new List<List<string>>();
+        public JObject Characterinfo = new JObject();
 
         //JObject to hold the custom API JSON values
         public JObject CustomAPIObject = new JObject();
@@ -55,7 +55,7 @@ namespace DiscordBot1
         }
 
         //List of a list of strings that holds JSON values using the character json file
-        public List<List<string>> Populatecharacters()
+        public JObject Populatecharacters()
         {
             //Catching errors
             try
@@ -77,30 +77,8 @@ namespace DiscordBot1
                 }
 
                 //Making the file's most outter object into a JObject
-                JObject o = JObject.Parse(filelines);
-
-                //Temporary list of a list of strings that all the values 
-                List<List<string>> tempcharacterList = new List<List<string>>();
-
-                //Parsing the JArray and getting all the values within the objects witihn
-                foreach (JObject i in o.GetValue("Phrases"))
-                {
-                    List<string> templist = new List<string>();
-                    foreach (KeyValuePair<string, JToken> property in i)
-                    {
-                        //Console.WriteLine(property.Value);       
-
-                        //Adding the value to the temporary string list
-                        templist.Add(property.Value.ToString());
-                    }
-                    //Adding the list to the list list, of strings
-                    tempcharacterList.Add(templist);
-                }
-                //shhh!
-                //Console.WriteLine("boop");
-
-                //Outputting the list
-                return tempcharacterList;
+                JObject o = JObject.Parse(filelines);               
+                return o;
             }
             catch (Exception ex)
             {
@@ -110,7 +88,7 @@ namespace DiscordBot1
         }
 
         //Making a request and responding accordingly
-        public static async Task MakerequestAsync(string position, string character, string basemessage, SocketMessage message, string emotion, string uncpath, int RequestTries)
+        public static async Task MakerequestAsync(string position, string character, string basemessage, SocketMessage message, string emotion, string uncpath, int RequestTries,string UseDiagonal)
         {
             //Declaring handler
             var handler = new HttpClientHandler();
@@ -124,13 +102,14 @@ namespace DiscordBot1
                 //Creaing a HTTP client using the HTTP handler
                 using (var httpClient = new HttpClient(handler))
                 {
-                    using (var request = new HttpRequestMessage(new HttpMethod("POST"), "https://api.fifteen.ai/app/getAudioFile"))
+                    using (var request = new HttpRequestMessage(new HttpMethod("POST"), "https://api.15.ai/app/getAudioFile"))
                     {
                         //request.Headers.TryAddWithoutValidation("user-agent", "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Mobile Safari/537.36");
 
                         //Setting headers/ POST content to use the API
                         request.Headers.TryAddWithoutValidation("user-agent", "FifteenCLI");
-                        request.Content = new StringContent("{\"text\":\"" + basemessage + "\",\"character\":\"" + character + "\" ,\"emotion\":\"" + emotion + "\"}");
+                        //Console.WriteLine("{\"text\":\"" + basemessage + "\",\"character\":\"" + character + "\" ,\"emotion\":\"" + emotion + "\" ,\"use_diagonal\":" + UseDiagonal + "}");
+                        request.Content = new StringContent("{\"text\":\"" + basemessage + "\",\"character\":\"" + character + "\" ,\"emotion\":\"" + emotion + "\" ,\"use_diagonal\":"+ UseDiagonal + "}");
                         request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json;charset=UTF-8");
                         //Storing the response as a variable to be made into a byte array
                         var response = await httpClient.SendAsync(request);
@@ -156,7 +135,7 @@ namespace DiscordBot1
                                 Console.WriteLine("Sending");
                                 RequestTries = RequestTries + 1;
                                 Console.WriteLine(RequestTries);
-                                _ = MakerequestAsync(position, character, basemessage, message, emotion, uncpath, RequestTries);
+                                _ = MakerequestAsync(position, character, basemessage, message, emotion, uncpath, RequestTries, UseDiagonal);
                             }
                         }
                         else
@@ -261,7 +240,7 @@ namespace DiscordBot1
         private List<string> Splitbasestring(string basemessage)
         {
             List<string> messagelist = new List<string>();
-            int chunkSize = 73;
+            int chunkSize = 275;
             int stringLength = basemessage.Length;
             for (int i = 0; i < stringLength; i += chunkSize)
             {
@@ -338,31 +317,33 @@ namespace DiscordBot1
             if (message.Author.Id == _client.CurrentUser.Id)
                 return;
 
-            
+            int JSONIndex = 0;
             //Spaz tier method of extracting and acting on message given
-            for (int JSONIndex = 0; JSONIndex < requestclass.Characterinfo.Count; JSONIndex++)
+            foreach (var i in requestclass.Characterinfo.SelectToken("Phrases"))
             {
+                //Console.WriteLine((string)i.SelectToken("Phrase"));
+                //Console.WriteLine((string)requestclass.Characterinfo.SelectToken("Phrases[" + JSONIndex + "].Phrase"));
                 //Console.WriteLine(requestclass.Characterinfo[JSONIndex][0]);
                 //Checking the message if it contains a command phrase
-                if (message.Content.Contains(requestclass.Characterinfo[JSONIndex][0]))
+                if (message.Content.Contains((string)requestclass.Characterinfo.SelectToken("Phrases["+JSONIndex+"].Phrase")))
                 {
                     //Displaying returned quote details
                     //Console.WriteLine(JSONIndex);
                     /*Console.WriteLine(requestclass.Characterinfo[JSONIndex][0]);
-                    Console.WriteLine(requestclass.Characterinfo[JSONIndex][1]);
-                    Console.WriteLine(requestclass.Characterinfo[JSONIndex][2]);
-                    Console.WriteLine(requestclass.Characterinfo[JSONIndex][3]);*/
+                    Console.WriteLine((string)requestclass.Characterinfo.SelectToken("Phrases["+JSONIndex+"].Character"));
+                    Console.WriteLine((string)requestclass.Characterinfo.SelectToken("Phrases["+JSONIndex+"].Function"));
+                    Console.WriteLine((string)requestclass.Characterinfo.SelectToken("Phrases["+JSONIndex+"].Emotionr"));*/
 
                     //Checking (Function type e.g hey 'x' say 'y' or 'x' tell me about, that meant to return wiki paragraph sections)
-                    if (requestclass.Characterinfo[JSONIndex][2] == "0")
+                    if ((string)requestclass.Characterinfo.SelectToken("Phrases["+JSONIndex+"].Function") == "0")
                     {
                         //Stripping string of "hey x, say" and adding a . (all requests need it/ is the reason on the fifteen.ai/app page the counter goes to 1 instead of 0)
                         string basemessage = ParsedString(JSONIndex, message);
 
                         //Making showing the text that is going to be sent along with the character saying it in the console
-                        Console.WriteLine(requestclass.Characterinfo[JSONIndex][1] + " says : " + basemessage);
+                        Console.WriteLine((string)requestclass.Characterinfo.SelectToken("Phrases["+JSONIndex+"].Character") + " says : " + basemessage + ".");
 
-                        basemessage = basemessage.Replace(" ", "%20");
+                        //basemessage = basemessage.Replace(" ", "%20");
 
                         //Adding a '.' at the end to 
                         basemessage += ".";
@@ -374,7 +355,7 @@ namespace DiscordBot1
                         //await message.Channel.SendMessageAsync(requestclass.Characterinfo[i, 0] + "  " + requestclass.Characterinfo[i, 1] + "  " + requestclass.Characterinfo[i, 2]); 
 
                     }
-                    else if (requestclass.Characterinfo[JSONIndex][2] == "1")
+                    else if ((string)requestclass.Characterinfo.SelectToken("Phrases["+JSONIndex+"].Function") == "1")
                     {
                         //Message sent to wiki then responded with x saying the paragraph in the wiki
                         string basemessage = ParsedString(JSONIndex, message);
@@ -389,7 +370,7 @@ namespace DiscordBot1
                         }
                         else
                         {
-                            Console.WriteLine(requestclass.Characterinfo[JSONIndex][1] + " says : " + respondedstring);
+                            Console.WriteLine((string)requestclass.Characterinfo.SelectToken("Phrases["+JSONIndex+"].Character") + " says : " + respondedstring);
 
                             //Checking if the response was OK and erroring as such
                             if (respondedstring == null)
@@ -398,25 +379,26 @@ namespace DiscordBot1
                             }
                             else
                             {
-                                _ = HandleMessageLength(JSONIndex, basemessage, message);
+                                _ = HandleMessageLength(JSONIndex, respondedstring, message);
                             }
                         }
                     }
-                    else if (requestclass.Characterinfo[JSONIndex][2] == "2")
+                    else if ((string)requestclass.Characterinfo.SelectToken("Phrases["+JSONIndex+"].Function") == "2")
                     {
                         //Making a custom API call, using the character API reference
-                        string temp = requestclass.Characterinfo[JSONIndex][4];
+                        string temp = (string)requestclass.Characterinfo.SelectToken("Phrases["+JSONIndex+"].APIReference");
                         _ = HandleCustomAPICallInfo(JSONIndex, temp, message);
                         //Console.WriteLine(CustomAPIString);
                     }
                 }
+                JSONIndex++;
             }
         }
 
         //Removing the quote from the message string
         private string ParsedString(int JSONIndex, SocketMessage message)
         {
-            string parsedmessage = requestclass.Characterinfo[JSONIndex][0];
+            string parsedmessage = (string)requestclass.Characterinfo.SelectToken("Phrases[" + JSONIndex + "].Phrase");
             string basemessage = message.Content.Replace(parsedmessage, "");
             return basemessage;
         }
@@ -424,12 +406,12 @@ namespace DiscordBot1
         //Task that either makes a single request for text given that is under 75 charaters or makes multiple requests if the text is any larger
         private async Task HandleMessageLength(int JSONIndex, string basemessage, SocketMessage message)
         {
-            //Checking if the message sent is over 75 characters to make sure either a single or multiple requests would be needed
-            if (basemessage.Length <= 75)
+            //Checking if the message sent is over 275 characters to make sure either a single or multiple requests would be needed
+            if (basemessage.Length <= 275)
             {
                 //Setting audio file path that will be used to send the message containing an audio file to Discord.
                 string uncpath = _config["SingleAudiofilepath"] + "test.wav";
-                _ = RequestFunctions.MakerequestAsync("", requestclass.Characterinfo[JSONIndex][1], basemessage, message, requestclass.Characterinfo[JSONIndex][3], uncpath,0);
+                _ = RequestFunctions.MakerequestAsync("", (string)requestclass.Characterinfo.SelectToken("Phrases["+JSONIndex+"].Character"), basemessage, message, (string)requestclass.Characterinfo.SelectToken("Phrases["+JSONIndex+"].Emotion"), uncpath,0, (string)requestclass.Characterinfo.SelectToken("Phrases["+JSONIndex+"].use_diagonal"));
             }
             else
             {
@@ -447,14 +429,14 @@ namespace DiscordBot1
                     
                     //Setting a string to a filename based on the Index in the loop.
                     string uncpath = _config["SingleAudiofilepath"] + "test" + j + ".wav";
-                    
+
                     //Starting the task that handles making requests to the API.
-                    _ = RequestFunctions.MakerequestAsync(j.ToString(), requestclass.Characterinfo[JSONIndex][1], messagelist[j] + ".", message, requestclass.Characterinfo[JSONIndex][3], uncpath,0);
+                    _ = RequestFunctions.MakerequestAsync("", (string)requestclass.Characterinfo.SelectToken("Phrases[" + JSONIndex + "].Character"), basemessage, message, (string)requestclass.Characterinfo.SelectToken("Phrases[" + JSONIndex + "].Emotion"), uncpath, 0, (string)requestclass.Characterinfo.SelectToken("Phrases[" + JSONIndex + "].use_diagonal"));
                 }
 
                 //Waiting a minute to ensure that all the requests have been passed through.
-                Thread.Sleep(60000);
-                
+                Thread.Sleep(10000);
+                Console.WriteLine("a");
                 //Sending the audio file messages in order based on the Indexs in the loop.
                 for (int j = 0; j < messagelist.Count; j++)
                 {

@@ -32,3 +32,15 @@ C:\Users\Tom\Documents\GitHub\Discord-bot-that-utilizes-fifteen.ai C#\Discord-Bo
 C:\Users\Tom\Documents\GitHub\Discord-bot-that-utilizes-fifteen.ai C#\Discord-Bot-1\obj\Debug\netcoreapp2.1\DiscordBot1.pdb
 C:\Users\Tom\Documents\GitHub\Discord-bot-that-utilizes-fifteen.ai C#\Discord-Bot-1\obj\Debug\netcoreapp2.1\DiscordBot1.genruntimeconfig.cache
 C:\Users\Tom\Documents\GitHub\Discord-bot-that-utilizes-fifteen.ai C#\Discord-Bot-1\obj\Debug\netcoreapp2.1\DiscordBot1.csproj.CoreCompileInputs.cache
+C:\Users\Tom\Documents\GitHub\Discord-bot-that-utilizes-fifteen.ai C#\Discord-bot-that-utilizes-fifteen.ai\Discord-Bot-1\bin\Debug\netcoreapp2.1\DiscordBot1.deps.json
+C:\Users\Tom\Documents\GitHub\Discord-bot-that-utilizes-fifteen.ai C#\Discord-bot-that-utilizes-fifteen.ai\Discord-Bot-1\bin\Debug\netcoreapp2.1\DiscordBot1.runtimeconfig.json
+C:\Users\Tom\Documents\GitHub\Discord-bot-that-utilizes-fifteen.ai C#\Discord-bot-that-utilizes-fifteen.ai\Discord-Bot-1\bin\Debug\netcoreapp2.1\DiscordBot1.runtimeconfig.dev.json
+C:\Users\Tom\Documents\GitHub\Discord-bot-that-utilizes-fifteen.ai C#\Discord-bot-that-utilizes-fifteen.ai\Discord-Bot-1\bin\Debug\netcoreapp2.1\DiscordBot1.dll
+C:\Users\Tom\Documents\GitHub\Discord-bot-that-utilizes-fifteen.ai C#\Discord-bot-that-utilizes-fifteen.ai\Discord-Bot-1\bin\Debug\netcoreapp2.1\DiscordBot1.pdb
+C:\Users\Tom\Documents\GitHub\Discord-bot-that-utilizes-fifteen.ai C#\Discord-bot-that-utilizes-fifteen.ai\Discord-Bot-1\obj\Debug\netcoreapp2.1\DiscordBot1.csprojAssemblyReference.cache
+C:\Users\Tom\Documents\GitHub\Discord-bot-that-utilizes-fifteen.ai C#\Discord-bot-that-utilizes-fifteen.ai\Discord-Bot-1\obj\Debug\netcoreapp2.1\DiscordBot1.AssemblyInfoInputs.cache
+C:\Users\Tom\Documents\GitHub\Discord-bot-that-utilizes-fifteen.ai C#\Discord-bot-that-utilizes-fifteen.ai\Discord-Bot-1\obj\Debug\netcoreapp2.1\DiscordBot1.AssemblyInfo.cs
+C:\Users\Tom\Documents\GitHub\Discord-bot-that-utilizes-fifteen.ai C#\Discord-bot-that-utilizes-fifteen.ai\Discord-Bot-1\obj\Debug\netcoreapp2.1\DiscordBot1.csproj.CoreCompileInputs.cache
+C:\Users\Tom\Documents\GitHub\Discord-bot-that-utilizes-fifteen.ai C#\Discord-bot-that-utilizes-fifteen.ai\Discord-Bot-1\obj\Debug\netcoreapp2.1\DiscordBot1.dll
+C:\Users\Tom\Documents\GitHub\Discord-bot-that-utilizes-fifteen.ai C#\Discord-bot-that-utilizes-fifteen.ai\Discord-Bot-1\obj\Debug\netcoreapp2.1\DiscordBot1.pdb
+C:\Users\Tom\Documents\GitHub\Discord-bot-that-utilizes-fifteen.ai C#\Discord-bot-that-utilizes-fifteen.ai\Discord-Bot-1\obj\Debug\netcoreapp2.1\DiscordBot1.genruntimeconfig.cache

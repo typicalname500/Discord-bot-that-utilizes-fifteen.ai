@@ -1,6 +1,6 @@
 {
   "Token": "YOUR DISCORD BOT TOKEN",
   "Prefix": ";",
-  "CharacterInfoFile": "C:\\Users\\Tom\\Documents\\GitHub\\Discord-bot-that-utilizes-fifteen.ai C#\\Discord-Bot-1\\bin\\Debug\\netcoreapp2.1\\characters.json",
+  "CharacterInfoFile": "C:\\Users\\Tom\\Documents\\GitHub\\Discord-bot-that-utilizes-fifteen.ai C#\\Discord-bot-that-utilizes-fifteen.ai\\Discord-Bot-1\\bin\\Debug\\netcoreapp2.1\\characters.json",
   "SingleAudiofilepath": "C:\\Users\\Tom\\Documents\\Projectz\\AI API\\"
 }
