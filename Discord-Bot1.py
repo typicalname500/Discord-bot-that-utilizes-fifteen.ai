@@ -95,7 +95,7 @@ async def Make15APIRequest(MessageText,CharacterIndex,message,RequestTries,FileN
         #Checking if the api responds with a 500/ server error message
         if response.status_code != 200:
             print('15.ai response error!')
-            print(response.text)
+            #print(response.text)
             #Checking if 3 bad responses have been made and erroring as such
             if RequestTries >= 3:
                 await message.channel.send('Something went wrong with making a call to 15.ai!')
@@ -123,7 +123,7 @@ async def Make15APIRequest(MessageText,CharacterIndex,message,RequestTries,FileN
             #break
     except Exception as inst:
         print('15.ai response error!')
-        print(response.text)
+        #print(response.text)
         #Checking if 3 bad responses have been made and erroring as such
         if RequestTries >= 3:
             await message.channel.send('Something went wrong with making a call to 15.ai!')
