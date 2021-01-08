@@ -1,4 +1,4 @@
-# Current state: Not working - Waiting for 15.ai to be back up
+# Current state: Working! :)
 
 ## Use branches to download the right language of bot to use!
 
