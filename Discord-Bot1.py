@@ -100,8 +100,9 @@ async def Make15APIRequest(MessageText,CharacterIndex,message,RequestTries,FileN
             if RequestTries >= 3:
                 await message.channel.send('Something went wrong with making a call to 15.ai!')
             else:
+                print(response.status_code)
                 #Waiting 10 seconds and sending the request again
-                await asyncio.sleep(100) #https://stackoverflow.com/questions/42279675/synchronous-sleep-into-asyncio-coroutine#:~:text=then%20your_sync_function%20is%20running%20in%20a%20separate%20thread,,into%20the%20janus%20library.%20More%20tips%20on%20this:
+                await asyncio.sleep(10) #https://stackoverflow.com/questions/42279675/synchronous-sleep-into-asyncio-coroutine#:~:text=then%20your_sync_function%20is%20running%20in%20a%20separate%20thread,,into%20the%20janus%20library.%20More%20tips%20on%20this:
                 TempRequestTries = RequestTries + 1
                 print(TempRequestTries)
                 asyncio.create_task(Make15APIRequest(MessageText,CharacterIndex,message,TempRequestTries,FileName))
@@ -122,7 +123,7 @@ async def Make15APIRequest(MessageText,CharacterIndex,message,RequestTries,FileN
             #print("File Removed!")
             #break
     except Exception as inst:
-        print('15.ai response error!')
+        print('15.ai response error 2!')
         #print(response.text)
         #Checking if 3 bad responses have been made and erroring as such
         if RequestTries >= 3:
