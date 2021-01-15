@@ -19,6 +19,7 @@ Example Hey GlaDOS, tell me what you learned about the Spanish inquisition? http
 
 * [To be done] Again if its ok to do so I may look into using some things from https://www.microsoft.com/en-us/ai/ai-lab
 
-
 # For the love of God, don't missuse this in a stupid way. Please. This means following the [Terms of service](http://fifteen.ai)
 
+### Contact
+If you have any questions/ have found a bug with this program, feel free to create an issue on the repo. You can also contact me by emailing me [here!](mailto:borockobobo@gmail.com), please add a subject with the repo name in caps. 
