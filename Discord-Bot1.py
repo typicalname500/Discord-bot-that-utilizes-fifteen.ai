@@ -13,19 +13,29 @@ import asyncio
 import re
 import datetime
 
-#Opening JSON files and storing information as object variables
-with open('characters.json') as json_file:
-    data = json.load(json_file)    
-    Character_info = data
-           
-with open('CustomAPIConfig.json') as json_file:
-        data = json.load(json_file)
-        CustomAPI_info = data 
-        
+#Opening JSON files and storing information as object variables (Thanks to https://github.com/alierenbozbulut, who spotted a few blunders I made in documentation/ methods of calling the json data )
 with open('TokenConfig.json') as json_file:
-        data = json.load(json_file)
-        Token_info = data 
+    string0 = json_file.read()
 
+data0 = json.loads(string0)
+Token_info = data0
+data0 = None 
+
+with open(Token_info['CharacterInfoFile']) as json_file:
+    string1 = json_file.read()
+
+data1 = json.loads(string1)    
+Character_info = data1
+data1 = None
+
+with open(Token_info['CustomAPIfilepath']) as json_file:
+    string2 = json_file.read()
+
+data2 = json.loads(string2)
+CustomAPI_info = data2
+data2 = None
+
+#Headers to use to make a request to 15.ai
 headers = {
    'authority': 'api.15.ai',
    'access-control-allow-origin': '*',
@@ -89,7 +99,7 @@ async def Make15APIRequest(MessageText,CharacterIndex,message,RequestTries,FileN
     #Debug print that shows the data section (makes sure the correct sting is passed)
     #print(data)
     try:
-        #Constructing the request, passing in the headers and the data
+        #Constructing the request, passing in the headers and the data 
         response = requests.post('https://api.15.ai/app/getAudioFile', headers=headers, data=data)       
         #print('response recevied!')            
         #Checking if the api responds with a 500/ server error message
@@ -100,6 +110,7 @@ async def Make15APIRequest(MessageText,CharacterIndex,message,RequestTries,FileN
             if RequestTries >= 3:
                 await message.channel.send('Something went wrong with making a call to 15.ai!')
             else:
+                #Showing the status code of the respomse
                 print(response.status_code)
                 #Waiting 10 seconds and sending the request again
                 await asyncio.sleep(10) #https://stackoverflow.com/questions/42279675/synchronous-sleep-into-asyncio-coroutine#:~:text=then%20your_sync_function%20is%20running%20in%20a%20separate%20thread,,into%20the%20janus%20library.%20More%20tips%20on%20this:
@@ -109,7 +120,7 @@ async def Make15APIRequest(MessageText,CharacterIndex,message,RequestTries,FileN
         else:
             #Creating a wav file with the response content and posting the response on discord 
             with open(FileName, 'wb') as file:
-                #Saving the response as a wav file      
+                #Saving the response as a wav file
                 file.write(response.content)
             
                 #Text to be entered with file \/  file being specified \/
@@ -123,7 +134,7 @@ async def Make15APIRequest(MessageText,CharacterIndex,message,RequestTries,FileN
             #print("File Removed!")
             #break
     except Exception as inst:
-        print('15.ai response error 2!')
+        print('15.ai response error! (Respone error)')
         #print(response.text)
         #Checking if 3 bad responses have been made and erroring as such
         if RequestTries >= 3:
@@ -133,7 +144,7 @@ async def Make15APIRequest(MessageText,CharacterIndex,message,RequestTries,FileN
             await asyncio.sleep(10) #https://stackoverflow.com/questions/42279675/synchronous-sleep-into-asyncio-coroutine#:~:text=then%20your_sync_function%20is%20running%20in%20a%20separate%20thread,,into%20the%20janus%20library.%20More%20tips%20on%20this:
             TempRequestTries = RequestTries + 1
             print(TempRequestTries)
-            asyncio.create_task(Make15APIRequest(MessageText,CharacterIndex,message,TempRequestTries,FileName))
+            asyncio.create_task(Make15APIRequest(MessageText,CharacterIndex,message,TempRequestTries,FileName))          
 
 #Function that makes a GET request to the Wikipedia API and then using the parsed text within a POST request to 15.ai
 async def MakeWikiRequest(GivenPrompt,message,ObjectIndex):
@@ -159,9 +170,9 @@ async def MakeWikiRequest(GivenPrompt,message,ObjectIndex):
 #Function that handles how many requests to the 15.ai api need to be made
 async def HandleMessageLength(GivenText,ObjectIndex,message):
     GivenText = await CleanStrings(GivenText)
-    print(GivenText)
+    #print(GivenText)
     current_date = datetime.datetime.now()    
-    FileName = 'TempAudio' + str(current_date.microsecond) + '.wav'   
+    FileName = Token_info['SingleAudiofilepath'] + 'TempAudio' + str(current_date.microsecond) + '.wav'   
     #Checking if the text is above 200 characters (15.ai character limit)
     if len(GivenText) <= 275:
         #Making a single request to 15.ai
@@ -171,13 +182,26 @@ async def HandleMessageLength(GivenText,ObjectIndex,message):
         n = 275
         # Using list comprehension to split the string into 73 chharacter "chunks" (https://pythonexamples.org/python-split-string-into-specific-length-chunks/)
         out = [(GivenText[i:i+n]) for i in range(0, len(GivenText), n)]
-        for Substring in out:
-            current_date = datetime.datetime.now()         
-            FileName = 'TempAudio' + str(current_date.microsecond) + '.wav'
-            print(FileName)
-            #print(Substring)
-            asyncio.create_task(Make15APIRequest(Substring,ObjectIndex,message,0,FileName))
         
+        #Declaring a list to hold the temporary file names
+        filenames = []
+        
+        #Creating the temporary file names using the milisecond that the file name is created (ish)
+        for substring in out:
+            #Waiting a smol amount of time to make sure that the same milisecond isn't used
+            await asyncio.sleep(0.001)
+            current_date = datetime.datetime.now()         
+            FileName = Token_info['SingleAudiofilepath'] + 'TempAudio' + str(current_date.microsecond) + '.wav'
+            filenames.append(FileName)
+            #print(FileName)
+        
+        #Creating an index to call the temporary file names
+        stringindex = 0
+        for Substring in out:               
+            asyncio.create_task(Make15APIRequest(Substring,ObjectIndex,message,0,filenames[stringindex]))
+            #print(filenames[stringindex])
+            stringindex = stringindex + 1
+
 #Function to handle what custom API should be being used and what API call should be used
 async def HandleCustomAPIInfo(GivenText,CustomAPIReference,message,ObjectIndex):
     #Index to allow passing of what object to use
@@ -203,7 +227,7 @@ async def HandleCustomAPIInfo(GivenText,CustomAPIReference,message,ObjectIndex):
                 print('b')
         #Incrementing index
         CustomAPIIndex = CustomAPIIndex + 1
-       
+
 #Function to make GET request and handle its output     
 async def MakeCustomGETAPICall(message,CustomAPIIndex,APICall,ObjectIndex):   
     #Making a get request to the custom API
@@ -246,7 +270,7 @@ async def CleanStrings(string_nonASCII):
     string_encode = string_nonASCII.encode("ascii", "ignore") # https://pythonguides.com/remove-unicode-characters-in-python/#:~:text=In%20python,%20to%20remove%20non-ASCII%20characters%20in%20python,,a%20string%20without%20ASCII%20character%20use%20string.decode().%20Example:
     string_decode = string_encode.decode()
     #Removing special characters
-    string_decode = re.sub(r"[^a-zA-Z0-9\.\,\s]+", '', string_decode) # https://stackoverflow.com/questions/43358857/how-to-remove-special-characters-except-space-from-a-file-in-python
+    string_decode = re.sub(r"[^a-zA-Z0-9\.\,\s\?\!]+", '', string_decode) # https://stackoverflow.com/questions/43358857/how-to-remove-special-characters-except-space-from-a-file-in-python
     return string_decode
 
 #Running the script through the bot

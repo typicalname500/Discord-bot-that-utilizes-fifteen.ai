@@ -16,7 +16,7 @@ This is a python discord bot that utilises POST requests made to https://fifteen
 {
   "Token": "Your Discord bot token",
   "Prefix": ";",
-  "CharacterInfoFile": "C:\\ProgramLocation\characters.json",
+  "CharacterInfoFile": "C:\\ProgramLocation\\characters.json",
   "SingleAudiofilepath": "C:\\Test Directory\\"
 }
 

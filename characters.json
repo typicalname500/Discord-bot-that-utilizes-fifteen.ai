@@ -576,6 +576,30 @@
             "use_diagonal":"true"
         },
         {
+            "Phrase": "Hey Starlight Glimmer, Tell me a cat fact",
+            "Character": "Starlight Glimmer",
+            "Function": "2",           
+            "Emotion":"Contextual",            
+            "use_diagonal":"true",
+            "APIReference":"Catfacts"
+        },
+        {
+            "Phrase": "Hey Starlight Glimmer, Give me an extract from a bibliography",
+            "Character": "Starlight Glimmer",
+            "Function": "2",           
+            "Emotion":"Contextual",            
+            "use_diagonal":"true",
+            "APIReference":"BibliographyExtract"
+        },
+        {
+            "Phrase": "Hey Starlight Glimmer, give me an animal fact about ",
+            "Character": "Starlight Glimmer",
+            "Function": "2",           
+            "Emotion":"Contextual",            
+            "use_diagonal":"true",
+            "APIReference":"Animalfacts"
+        },
+        {
             "Phrase": "Hey Trixie, tell me about ",
             "Character": "Trixie",
             "Function": "1",

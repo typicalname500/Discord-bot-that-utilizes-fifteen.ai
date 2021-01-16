@@ -1,3 +1,7 @@
 {
-    "token": "YOUR DISCORD TOKEN"
+    "token": "YOUR DISCORD TOKEN",
+    "Prefix": ";",
+    "CharacterInfoFile": "C:\\Users\\Tom\\Documents\\GitHub\\Discord-bot-that-utilizes-fifteen.ai Python\\Discord-bot-that-utilizes-fifteen.ai\\characters.json",
+    "SingleAudiofilepath": "C:\\Users\\Tom\\Documents\\GitHub\\Discord-bot-that-utilizes-fifteen.ai Python\\Discord-bot-that-utilizes-fifteen.ai\\",
+    "CustomAPIfilepath": "C:\\Users\\Tom\\Documents\\GitHub\\Discord-bot-that-utilizes-fifteen.ai Python\\Discord-bot-that-utilizes-fifteen.ai\\CustomAPIConfig.json"
 }
