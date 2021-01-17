@@ -94,7 +94,7 @@ This is a python discord bot that utilises POST requests made to https://fifteen
 
 * "Hey GLaDOS, give me an animal fact about dog" (Will call the 3rd custom API listed within the customAPIconfig file. The typo for "dog" is correct as dog needs to be entered into the api)
 
-# What commands I will probalby try to do:
+# What commands I will probably try to do:
 
 [Currently working] "Hey x, say y"
 
