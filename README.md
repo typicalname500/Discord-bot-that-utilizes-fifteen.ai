@@ -1,4 +1,4 @@
-# Current state: Working! :)
+# Current state: Not Working! :<
 
 ## Use branches to download the right language of bot to use!
 
