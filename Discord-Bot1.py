@@ -12,6 +12,7 @@ import json
 import asyncio
 import re
 import datetime
+from num2words import num2words
 
 #Opening JSON files and storing information as object variables (Thanks to https://github.com/alierenbozbulut, who spotted a few blunders I made in documentation/ methods of calling the json data )
 with open('TokenConfig.json') as json_file:
@@ -36,21 +37,39 @@ CustomAPI_info = data2
 data2 = None
 
 #Headers to use to make a request to 15.ai
-headers = {
-   'authority': 'api.15.ai',
-   'access-control-allow-origin': '*',
-   'accept': 'application/json, text/plain, */*',
-   'dnt': '1',
-   'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36 Edg/87.0.664.66',
-   'content-type': 'application/json;charset=UTF-8',
-   'origin': 'https://15.ai',
-   'sec-fetch-site': 'same-site',
-   'sec-fetch-mode': 'cors',
-   'sec-fetch-dest': 'empty',
-   'referer': 'https://15.ai/',
-   'accept-language': 'en-GB,en;q=0.9,en-US;q=0.8'
+FirstRequestHeaders = {
+  'authority': 'api.15.ai',
+  'access-control-allow-origin': '*',
+  'accept': 'application/json, text/plain, */*',
+  'sec-ch-ua-mobile': '?0',
+  'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36 Edg/94.0.992.31',
+  'sec-ch-ua': '\\"Chromium\\";v=\\"94\\", \\"Microsoft Edge\\";v=\\"94\\", \\";Not A Brand\\";v=\\"99\\"',
+  'sec-ch-ua-platform': '\\"Windows\\"',
+  'content-type': 'application/json;charset=UTF-8',
+  'origin': 'https://15.ai',
+  'sec-fetch-site': 'same-site',
+  'sec-fetch-mode': 'cors',
+  'sec-fetch-dest': 'empty',
+  'referer': 'https://15.ai/'
 }
-  
+
+SecondReqheaders = {
+  'authority': 'cdn.15.ai',
+  'sec-ch-ua': '\\"Chromium\\";v=\\"94\\", \\"Microsoft Edge\\";v=\\"94\\", \\";Not A Brand\\";v=\\"99\\"',
+  'sec-ch-ua-mobile': '?0',
+  'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36 Edg/94.0.992.31',
+  'sec-ch-ua-platform': '\\"Windows\\"',
+  'accept': '*/*',
+  'origin': 'https://15.ai',
+  'sec-fetch-site': 'same-site',
+  'sec-fetch-mode': 'cors',
+  'sec-fetch-dest': 'empty',
+  'referer': 'https://15.ai/',
+  'accept-language': 'en-GB,en;q=0.9,en-US;q=0.8'
+}  
+
+Nullpayload={}
+
 #Establishes client connection
 client = discord.Client()
 
@@ -95,33 +114,47 @@ async def Make15APIRequest(MessageText,CharacterIndex,message,RequestTries,FileN
     print(Character_info['Phrases'][CharacterIndex]['Character'] + " says: " +MessageText)
     
     #Variable to store POST content to use within the request
-    data = '{"text":"%s","character":"%s","emotion":"%s","use_diagonal":%s}' % (MessageText+".", Character_info['Phrases'][CharacterIndex]['Character'], Character_info['Phrases'][CharacterIndex]['Emotion'],Character_info['Phrases'][CharacterIndex]['use_diagonal'])
+    #data = '{"text":"%s","character":"%s","emotion":"%s","use_diagonal":%s}' % (MessageText+".", Character_info['Phrases'][CharacterIndex]['Character'], Character_info['Phrases'][CharacterIndex]['Emotion'],Character_info['Phrases'][CharacterIndex]['use_diagonal'])
+    data = '{"text":"%s","character":"%s","emotion":"%s"}' % (MessageText+".", Character_info['Phrases'][CharacterIndex]['Character'], Character_info['Phrases'][CharacterIndex]['Emotion'])
+    
     #Debug print that shows the data section (makes sure the correct sting is passed)
-    #print(data)
+    print(data)
     try:
         #Constructing the request, passing in the headers and the data 
-        response = requests.post('https://api.15.ai/app/getAudioFile', headers=headers, data=data)       
+        firstresponse = requests.post('https://api.15.ai/app/getAudioFile5', headers=FirstRequestHeaders, data=data)       
         #print('response recevied!')            
         #Checking if the api responds with a 500/ server error message
-        if response.status_code != 200:
+        if firstresponse.status_code != 200:
             print('15.ai response error!')
             #print(response.text)
             #Checking if 3 bad responses have been made and erroring as such
             if RequestTries >= 3:
-                await message.channel.send('Something went wrong with making a call to 15.ai!')
+                await message.channel.send('Something went wrong with making the first call to 15.ai!')
             else:
                 #Showing the status code of the respomse
-                print(response.status_code)
+                print(firstresponse.status_code)
                 #Waiting 10 seconds and sending the request again
                 await asyncio.sleep(10) #https://stackoverflow.com/questions/42279675/synchronous-sleep-into-asyncio-coroutine#:~:text=then%20your_sync_function%20is%20running%20in%20a%20separate%20thread,,into%20the%20janus%20library.%20More%20tips%20on%20this:
                 TempRequestTries = RequestTries + 1
                 print(TempRequestTries)
                 asyncio.create_task(Make15APIRequest(MessageText,CharacterIndex,message,TempRequestTries,FileName))
         else:
+            #Parsing the json from the first request's response
+            fifteenaijsontext = json.loads(firstresponse.text)
+            
+            #Selecting the generated wav file name
+            wavfilelocation = fifteenaijsontext['wavNames'][0]
+
+            #Creating a URL based on the output of the past request
+            newrequesturl = "https://cdn.15.ai/audio/" + wavfilelocation
+           
+            #Making the second request to get the generated wav file
+            secondresponse = requests.request("GET", newrequesturl, headers=SecondReqheaders, data=Nullpayload)
+
             #Creating a wav file with the response content and posting the response on discord 
             with open(FileName, 'wb') as file:
                 #Saving the response as a wav file
-                file.write(response.content)
+                file.write(secondresponse.content)
             
                 #Text to be entered with file \/  file being specified \/
                 await message.channel.send('Test',file=discord.File(FileName))      
@@ -155,7 +188,7 @@ async def MakeWikiRequest(GivenPrompt,message,ObjectIndex):
     WikiRequest = requests.get(WikiRequestString)
     #Checking if the request responds OK and erroring if it doesn't
     if WikiRequest.status_code != 200:
-        print('Error!')            
+        print('Other API call error!')
         await message.channel.send('Something went wrong with making a call to the Wiki API!')
     else:          
         #Parsing the JSON returned and either outputting an error "if nothing comes back for that search" or using the parsed string within a call to 15.ai
@@ -174,12 +207,12 @@ async def HandleMessageLength(GivenText,ObjectIndex,message):
     current_date = datetime.datetime.now()    
     FileName = Token_info['SingleAudiofilepath'] + 'TempAudio' + str(current_date.microsecond) + '.wav'   
     #Checking if the text is above 200 characters (15.ai character limit)
-    if len(GivenText) <= 275:
+    if len(GivenText) <= 198:
         #Making a single request to 15.ai
         asyncio.create_task(Make15APIRequest(GivenText,ObjectIndex,message,0,FileName))
     else:
         #Character "Chunk" number
-        n = 275
+        n = 198
         # Using list comprehension to split the string into 73 chharacter "chunks" (https://pythonexamples.org/python-split-string-into-specific-length-chunks/)
         out = [(GivenText[i:i+n]) for i in range(0, len(GivenText), n)]
         
@@ -250,7 +283,7 @@ async def MakeCustomGETAPICall(message,CustomAPIIndex,APICall,ObjectIndex):
                 print(inst)
                 await message.channel.send('Something went wrong with parsing the Custom API!')
         else:
-            try:                               
+            try:
                 #Using etree to parse the XML using (https://stackoverflow.com/a/52506999)
                 from lxml.etree import fromstring
                 string = CustomAPIRequest.text
@@ -264,13 +297,31 @@ async def MakeCustomGETAPICall(message,CustomAPIIndex,APICall,ObjectIndex):
                 print(inst)
                 await message.channel.send('Something went wrong with parsing the Custom API!')           
 
-#Function to remove non ASCII characters and also remove special characters
+#Function to remove non ASCII characters, special characters and converts numbers to words
 async def CleanStrings(string_nonASCII):
     #Making the given string encoded in ascii  
     string_encode = string_nonASCII.encode("ascii", "ignore") # https://pythonguides.com/remove-unicode-characters-in-python/#:~:text=In%20python,%20to%20remove%20non-ASCII%20characters%20in%20python,,a%20string%20without%20ASCII%20character%20use%20string.decode().%20Example:
     string_decode = string_encode.decode()
+    
+    #Searching within the given string for integers that are in sequence (123)
+    for x in reversed(range(1, 20)):
+        #Creatinga regex string to find a interger sequence that would match [0-9]{Ranged amount}
+        x = re.findall(r"[0-9]{"+str(x)+ r"}", string_decode)
+        #Looping through each found occurance
+        for foundint in x:
+            #Creating the replacement string
+            replacemntstring = num2words(int(foundint))
+
+            #Replacing the interger with the word(s)
+            regex =r"" +foundint+ r""
+            replaced_string = re.sub(regex, replacemntstring, string_decode)
+
+            #Setting the main string to the converted string 
+            string_decode = replaced_string
+
     #Removing special characters
     string_decode = re.sub(r"[^a-zA-Z0-9\.\,\s\?\!]+", '', string_decode) # https://stackoverflow.com/questions/43358857/how-to-remove-special-characters-except-space-from-a-file-in-python
+
     return string_decode
 
 #Running the script through the bot

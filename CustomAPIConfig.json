@@ -1,19 +1,19 @@
 {
     "APIs":[
         {
-            "ObjectReference":"Catfacts",
+            "ObjectReference":"RandomQuotes",
             "ReqType":"GET",
-            "BaseAPICall":"https://cat-fact.herokuapp.com/facts/random?animal_type=cat&amount=1",
+            "BaseAPICall":"https://api.quotable.io/random",
             "OutputType":"JSON",
-            "JSONPath":"text",
+            "JSONPath":"content",
             "XMLPath":""
         },
         {
-            "ObjectReference":"Animalfacts",
+            "ObjectReference":"TaggedQuotes",
             "ReqType":"GET",
-            "BaseAPICall":"https://cat-fact.herokuapp.com/facts/random?animal_type={0}&amount=1",
+            "BaseAPICall":"https://api.quotable.io/random?tags={0}",
             "OutputType":"JSON",
-            "JSONPath":"text",
+            "JSONPath":"content",
             "XMLPath":""
         },
         {

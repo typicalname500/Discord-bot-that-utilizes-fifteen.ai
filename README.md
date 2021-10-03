@@ -45,9 +45,9 @@ This is a python discord bot that utilises POST requests made to https://fifteen
 
 6. Example uses of a custom API are below:
 
-* "Hey GLaDOS, Tell me a cat fact" (Will call the 1st custom API listed within the customAPIconfig file, in order to make sure that the single call can be made, white space after it must be trimmed in the character quote section)
+* "Hey GLaDOS, give me a random quote" (Will call the 1st custom API listed within the customAPIconfig file, in order to make sure that the single call can be made, white space after it must be trimmed in the character quote section)
 * "Hey GLaDOS, Give me an extract from a bibliography" (Will call the 2nd custom API listed within the customAPIconfig file)
-* "Hey GLaDOS, give me an animal fact about dog" (Will call the 3rd custom API listed within the customAPIconfig file. The typo for "dog" is correct as dog needs to be entered into the api)
+* "Hey GLaDOS, give me a random quote about technology" (Will call the 3rd custom API listed within the customAPIconfig file.)
 
 # Custom command phrases
 1. Open the file named "characters.json"
