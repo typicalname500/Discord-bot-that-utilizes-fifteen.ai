@@ -1,4 +1,7 @@
-# Current state: Not Working! :<
+# Current state:
+### Python:  Working ✔️
+### C#: Not working ❌
+### NodeJS: Not working ❌
 
 ## Use branches to download the right language of bot to use!
 
