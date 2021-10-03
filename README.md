@@ -7,7 +7,7 @@ This is a python discord bot that utilises POST requests made to https://fifteen
 
 3. Get the keys/ tokens from the following site to use a bot: https://discord.com/developers/applications
 
-4. Enter the following: 
+4. In `TokenConfig.json`, enter the following: 
 ```json
 {
   "Token": "Your Discord bot token",
