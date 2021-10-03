@@ -1,5 +1,5 @@
 # Discord-bot-that-utilizes-fifteen.ai
-This is a python discord bot that utilises POST requests made to https://fifteen.ai/app/getAudioFile which responds with wav files that are posted onto the server.
+This is a python discord bot that utilises POST requests made to https://fifteen.ai/app/getAudioFile5 which responds with links to wav files that are posted onto the server,  which can then be called via a GET request to https://cdn.15.ai/audio/XYZ.wav.
 
 # Installation 
 1. Clone/ download the repo
