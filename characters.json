@@ -918,6 +918,18 @@
             "Function": "2",           
             "Emotion":"Contextual",
             "APIReference":"TaggedQuotes"
+        },
+        {
+            "Phrase": "Hey Starlight Glimmer, In VC, say ",
+            "Character": "Starlight Glimmer",
+            "Function": "3",
+            "Emotion":"Contextual"
+        },
+        {
+            "Phrase": "Hey GLaDOS, In VC, say ",
+            "Character": "GLaDOS",
+            "Function": "3",
+            "Emotion":"Contextual"
         }
     ]
 }

@@ -99,15 +99,31 @@ async def on_message(message):
             #3. Using the stripped message content to make a request to a custom API specified within the CustomAPIConfig.json file and using the parse response from that within a request to 15.ai
             if CharacterObject['Function'] == '0':
                 asyncio.create_task(HandleMessageLength(PhraseRemovedString,ObjectIndex,message))
-                break                                
+                break
             elif CharacterObject['Function'] == '1':                            
                 await MakeWikiRequest(PhraseRemovedString,message,ObjectIndex)
                 break
             elif CharacterObject['Function'] == '2':
                 asyncio.create_task(HandleCustomAPIInfo(PhraseRemovedString,CharacterObject['APIReference'],message,ObjectIndex))
                 break
+            elif CharacterObject['Function'] == '3':
+                asyncio.create_task(VC_HandleMessageLength(PhraseRemovedString,ObjectIndex,message))             
+                break
         #Incrementing the characte object index
         ObjectIndex = ObjectIndex + 1
+
+    if "Hey bot join our voice chat" in message.content or "bot join vc" in message.content:
+        #for x in client.voice_clients:
+        #    if x.guild == message.guild:
+        #        return await x.connect()
+        channel = message.author.voice.channel
+        await channel.connect()
+
+    #https://stackoverflow.com/questions/50651305/message-object-has-no-attribute-server
+    if "Hey bot, leave our voice chat" in message.content or "bot leave vc" in message.content:
+        for x in client.voice_clients:
+            if x.guild == message.guild:
+                return await x.disconnect()
 
 #Function to make a request to the 15.ai api and handle the output
 async def Make15APIRequest(MessageText,CharacterIndex,message,RequestTries,FileName):   
@@ -117,7 +133,7 @@ async def Make15APIRequest(MessageText,CharacterIndex,message,RequestTries,FileN
     #data = '{"text":"%s","character":"%s","emotion":"%s","use_diagonal":%s}' % (MessageText+".", Character_info['Phrases'][CharacterIndex]['Character'], Character_info['Phrases'][CharacterIndex]['Emotion'],Character_info['Phrases'][CharacterIndex]['use_diagonal'])
     data = '{"text":"%s","character":"%s","emotion":"%s"}' % (MessageText+".", Character_info['Phrases'][CharacterIndex]['Character'], Character_info['Phrases'][CharacterIndex]['Emotion'])
     
-    #Debug print that shows the data section (makes sure the correct sting is passed)
+    #Debug print that shows the data section (makes sure the correct string is passed)
     print(data)
     try:
         #Constructing the request, passing in the headers and the data 
@@ -157,13 +173,16 @@ async def Make15APIRequest(MessageText,CharacterIndex,message,RequestTries,FileN
                 file.write(secondresponse.content)
             
                 #Text to be entered with file \/  file being specified \/
-                await message.channel.send('Test',file=discord.File(FileName))      
+                await message.channel.send('Test',file=discord.File(FileName))
+
                 #Debug checking status code of response (403 may mean there will need to be a change to the request)
                 #await message.channel.send(response.status_code)
 
             #Removing the file once it has been posted
             #os.remove("test1.wav")
+
             os.remove(FileName)
+
             #print("File Removed!")
             #break
     except Exception as inst:
@@ -178,6 +197,74 @@ async def Make15APIRequest(MessageText,CharacterIndex,message,RequestTries,FileN
             TempRequestTries = RequestTries + 1
             print(TempRequestTries)
             asyncio.create_task(Make15APIRequest(MessageText,CharacterIndex,message,TempRequestTries,FileName))          
+
+#Function to make a request to the 15.ai api and play the output in a voice chat
+async def VC_Make15APIRequest(MessageText,CharacterIndex,message,RequestTries,FileName):   
+    print(Character_info['Phrases'][CharacterIndex]['Character'] + " says: " +MessageText)
+    
+    #Variable to store POST content to use within the request
+    data = '{"text":"%s","character":"%s","emotion":"%s"}' % (MessageText+".", Character_info['Phrases'][CharacterIndex]['Character'], Character_info['Phrases'][CharacterIndex]['Emotion'])
+    
+    #Debug print that shows the data section (makes sure the correct string is passed)
+    print(data)
+    try:
+        #Constructing the request, passing in the headers and the data 
+        firstresponse = requests.post('https://api.15.ai/app/getAudioFile5', headers=FirstRequestHeaders, data=data)       
+        #print('response recevied!')            
+        #Checking if the api responds with a 500/ server error message
+        if firstresponse.status_code != 200:
+            print('15.ai response error!')
+            #print(response.text)
+            #Checking if 3 bad responses have been made and erroring as such
+            if RequestTries >= 3:
+                await message.channel.send('Something went wrong with making the first call to 15.ai!')
+            else:
+                #Showing the status code of the respomse
+                print(firstresponse.status_code)
+                #Waiting 10 seconds and sending the request again
+                await asyncio.sleep(10) #https://stackoverflow.com/questions/42279675/synchronous-sleep-into-asyncio-coroutine#:~:text=then%20your_sync_function%20is%20running%20in%20a%20separate%20thread,,into%20the%20janus%20library.%20More%20tips%20on%20this:
+                TempRequestTries = RequestTries + 1
+                print(TempRequestTries)
+                asyncio.create_task(VC_Make15APIRequest(MessageText,CharacterIndex,message,TempRequestTries,FileName))
+        else:
+            #Parsing the json from the first request's response
+            fifteenaijsontext = json.loads(firstresponse.text)
+            
+            #Selecting the generated wav file name
+            wavfilelocation = fifteenaijsontext['wavNames'][0]
+
+            #Creating a URL based on the output of the past request
+            newrequesturl = "https://cdn.15.ai/audio/" + wavfilelocation
+           
+            #Making the second request to get the generated wav file
+            secondresponse = requests.request("GET", newrequesturl, headers=SecondReqheaders, data=Nullpayload)
+
+            #Creating a wav file with the response content and posting the response on discord 
+            with open(FileName, 'wb') as file:
+                #Saving the response as a wav file
+                file.write(secondresponse.content)
+            
+                #Text to be entered with file \/  file being specified \/
+                #await message.channel.send('Test',file=discord.File(FileName))
+
+                for x in client.voice_clients:
+                    if x.guild == message.guild:
+                        x.play(discord.FFmpegPCMAudio(executable=Token_info['ffmpeg_location'], source=FileName))                        
+    
+    except Exception as inst:
+        print('15.ai response error! (Respone error)')
+        #print(response.text)
+        #Checking if 3 bad responses have been made and erroring as such
+
+        print(inst)
+        if RequestTries >= 3:
+            await message.channel.send('Something went wrong with making a call to 15.ai!')
+        else:
+            #Waiting 10 seconds and sending the request again
+            await asyncio.sleep(10) #https://stackoverflow.com/questions/42279675/synchronous-sleep-into-asyncio-coroutine#:~:text=then%20your_sync_function%20is%20running%20in%20a%20separate%20thread,,into%20the%20janus%20library.%20More%20tips%20on%20this:
+            TempRequestTries = RequestTries + 1
+            print(TempRequestTries)
+            #asyncio.create_task(VC_Make15APIRequest(MessageText,CharacterIndex,message,TempRequestTries,FileName))          
 
 #Function that makes a GET request to the Wikipedia API and then using the parsed text within a POST request to 15.ai
 async def MakeWikiRequest(GivenPrompt,message,ObjectIndex):
@@ -230,8 +317,43 @@ async def HandleMessageLength(GivenText,ObjectIndex,message):
         
         #Creating an index to call the temporary file names
         stringindex = 0
-        for Substring in out:               
+        for Substring in out:
             asyncio.create_task(Make15APIRequest(Substring,ObjectIndex,message,0,filenames[stringindex]))
+            #print(filenames[stringindex])
+            stringindex = stringindex + 1
+
+#Function that handles how many requests to the 15.ai api need to be made
+async def VC_HandleMessageLength(GivenText,ObjectIndex,message):
+    GivenText = await CleanStrings(GivenText)
+    #print(GivenText)
+    current_date = datetime.datetime.now()
+    FileName = Token_info['SingleAudiofilepath'] + 'TempAudio' + str(current_date.microsecond) + '.wav'   
+    #Checking if the text is above 200 characters (15.ai character limit)
+    if len(GivenText) <= 198:
+        #Making a single request to 15.ai
+        asyncio.create_task(VC_Make15APIRequest(GivenText,ObjectIndex,message,0,FileName))
+    else:
+        #Character "Chunk" number
+        n = 198
+        # Using list comprehension to split the string into 73 chharacter "chunks" (https://pythonexamples.org/python-split-string-into-specific-length-chunks/)
+        out = [(GivenText[i:i+n]) for i in range(0, len(GivenText), n)]
+        
+        #Declaring a list to hold the temporary file names
+        filenames = []
+        
+        #Creating the temporary file names using the milisecond that the file name is created (ish)
+        for substring in out:
+            #Waiting a smol amount of time to make sure that the same milisecond isn't used
+            await asyncio.sleep(0.001)
+            current_date = datetime.datetime.now()         
+            FileName = Token_info['SingleAudiofilepath'] + 'TempAudio' + str(current_date.microsecond) + '.wav'
+            filenames.append(FileName)
+            #print(FileName)
+        
+        #Creating an index to call the temporary file names
+        stringindex = 0
+        for Substring in out:
+            asyncio.create_task(VC_Make15APIRequest(Substring,ObjectIndex,message,0,filenames[stringindex]))
             #print(filenames[stringindex])
             stringindex = stringindex + 1
 

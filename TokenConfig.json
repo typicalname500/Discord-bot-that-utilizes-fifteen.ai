@@ -3,5 +3,6 @@
     "Prefix": ";",
     "CharacterInfoFile": "C:\\Users\\thoma\\Documents\\Github_Projects\\Discord-bot-that-utilizes-fifteen.ai\\characters.json",
     "SingleAudiofilepath": "C:\\Users\\thoma\\Documents\\Github_Projects\\Discord-bot-that-utilizes-fifteen.ai\\",
-    "CustomAPIfilepath": "C:\\Users\\thoma\\Documents\\Github_Projects\\Discord-bot-that-utilizes-fifteen.ai\\CustomAPIConfig.json"
+    "CustomAPIfilepath": "C:\\Users\\thoma\\Documents\\Github_Projects\\Discord-bot-that-utilizes-fifteen.ai\\CustomAPIConfig.json",
+    "ffmpeg_location": "C:\\Users\\thoma\\Documents\\ffmpeg\\bin\\ffmpeg.exe"
 }

@@ -1,6 +1,11 @@
 # Discord-bot-that-utilizes-fifteen.ai
 This is a python discord bot that utilises POST requests made to https://fifteen.ai/app/getAudioFile5 which responds with links to wav files that are posted onto the server,  which can then be called via a GET request to https://cdn.15.ai/audio/XYZ.wav.
 
+# Prerequisites
+To use the voice-chat based features, you will also need to install ffmpeg: https://ffmpeg.org/download.html 
+
+If you would prefer not to, you can remove the 2 phrases within the `characters.json` file starting with "Hey X, in VC, say " to prevent accidental usage.
+
 # Installation 
 1. Clone/ download the repo
 2. Edit the file named "Tokenconfig.json" file found within the program's location (default location is in the root directory)
@@ -18,7 +23,7 @@ This is a python discord bot that utilises POST requests made to https://fifteen
 ```
 
 # Custom API configuration:
-1. Add a new quote to the Characters.json file and add the following:
+1. Add a new quote to the `characters.json` file and add the following:
 ```json
 {
   "Phrase": "Custom Quote",
@@ -29,7 +34,7 @@ This is a python discord bot that utilises POST requests made to https://fifteen
 }
 ```
 
-3. Go to the CustomAPIConfig.json file and create a new object. 
+3. Go to the `CustomAPIConfig.json` file and create a new object. 
 4. Enter in the relevant information as follows:
 
 ```json
@@ -52,7 +57,7 @@ This is a python discord bot that utilises POST requests made to https://fifteen
 * "Hey GLaDOS, give me a random quote about technology" (Will call the 3rd custom API listed within the customAPIconfig file.)
 
 # Custom command phrases
-1. Open the file named "characters.json"
+1. Open the file named `characters.json`
 2. Edit the "Phrases" object array to include another object to hold your information, below are what each "function" correlates to also:
 
 * **Make sure that if the object you are adding is within or at the end of the array, that it either has "," after the obect or doesn't have it if it is at the end and that a "," is added to the previous object**
@@ -63,13 +68,15 @@ This is a python discord bot that utilises POST requests made to https://fifteen
   
   '2'. Uses a refered custom API output to make a request to 15.ai (see above for configuration)
 
-* JSON for uses of functions 0/1
+  '3'. Will pass a message to 15.ai, get the audio response and play the audio in a voice chat.
+
+* JSON for uses of functions 0/1/3
 
 ```json
 {
   "Phrase": "Command phrase that will be said in discord message ",
   "Character": "Character (Exact reference)",
-  "Function": "0/1",
+  "Function": "0/1/3",
   "Emotion":"Emotion"
 },
 ``` 
@@ -96,11 +103,18 @@ This is a python discord bot that utilises POST requests made to https://fifteen
 
 * "Hey GLaDOS, give me an animal fact about dog" (Will call the 3rd custom API listed within the customAPIconfig file. The typo for "dog" is correct as dog needs to be entered into the api)
 
+* "bot join vc" Makes the bot join the current voice channel the user is in.
+
+* "bot leave vc" Makes the bot leave the current voice channel the user is in.
+
+* "Hey GLaDOS, in VC, say " (If in a voice chat, the converted text you enter into the message will be played in the voice chat)
+  * The above requires the bot to currently be in a voice channel using the above join/ leave command messages.
+
 # What commands I will probably try to do:
 
-[Currently working] "Hey x, say y"
+[Done] "Hey x, say y"
 
-[Currently working] "Hey x, tell me about" (retreives a section of a wikipedia page and says it)
+[Done] "Hey x, tell me about" (retrieves a section of a wikipedia page and says it)
 
 [To be done] "Hey x, [question] Text/ link to text/pdf link" 
 Example Hey GlaDOS, tell me what you learned about the Spanish inquisition? https://en.wikipedia.org/wiki/Spanish_Inquisition
@@ -109,7 +123,6 @@ Example Hey GlaDOS, tell me what you learned about the Spanish inquisition? http
 [To be done] (Verbal) "Hey x, say y" (Voice chat version of "hey x say y")
 
 [To be done] Again if its ok to do so I may look into using some things from https://www.microsoft.com/en-us/ai/ai-lab
-
 
 # For the love of God, don't missuse this in a stupid way. Please.
 
