@@ -12,7 +12,7 @@ If you would prefer not to, you can remove the 2 phrases within the `characters.
 
 3. Get the keys/ tokens from the following site to use a bot: https://discord.com/developers/applications
 
-4. Enter the following: 
+4. In `TokenConfig.json`, enter the following: 
 ```json
 {
   "Token": "Your Discord bot token",
@@ -97,11 +97,11 @@ If you would prefer not to, you can remove the 2 phrases within the `characters.
 
 ## Example uses of a custom API are below:
 
-* "Hey GLaDOS, Tell me a cat fact" (Will call the 1st custom API listed within the customAPIconfig file, in order to make sure that the single call can be made, white space after it must be trimmed in the character quote section)
+* "Hey GLaDOS, give me a random quote" (Will call the 1st custom API listed within the customAPIconfig file, in order to make sure that the single call can be made, white space after it must be trimmed in the character quote section)
 
 * "Hey GLaDOS, Give me an extract from a bibliography" (Will call the 2nd custom API listed within the customAPIconfig file)
 
-* "Hey GLaDOS, give me an animal fact about dog" (Will call the 3rd custom API listed within the customAPIconfig file. The typo for "dog" is correct as dog needs to be entered into the api)
+* "Hey GLaDOS, give me a random quote about technology" (Will call the 3rd custom API listed within the customAPIconfig file.)
 
 * "bot join vc" Makes the bot join the current voice channel the user is in.
 
