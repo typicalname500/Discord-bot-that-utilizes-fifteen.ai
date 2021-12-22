@@ -14,6 +14,9 @@ import re
 import datetime
 from num2words import num2words
 
+#Getting the JSON data for the 
+#---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
+
 #Opening JSON files and storing information as object variables (Thanks to https://github.com/alierenbozbulut, who spotted a few blunders I made in documentation/ methods of calling the json data )
 with open('TokenConfig.json') as json_file:
     string0 = json_file.read()
@@ -22,6 +25,7 @@ data0 = json.loads(string0)
 Token_info = data0
 data0 = None 
 
+#Opening the file within the tokenconfig file relating to the character phrases and saving the JSON
 with open(Token_info['CharacterInfoFile']) as json_file:
     string1 = json_file.read()
 
@@ -29,12 +33,16 @@ data1 = json.loads(string1)
 Character_info = data1
 data1 = None
 
+#Opening the file within the tokenconfig file relating to the custom API info and saving the JSON
 with open(Token_info['CustomAPIfilepath']) as json_file:
     string2 = json_file.read()
 
 data2 = json.loads(string2)
 CustomAPI_info = data2
 data2 = None
+
+#---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
+
 
 #Headers to use to make a request to 15.ai
 FirstRequestHeaders = {
@@ -68,6 +76,7 @@ SecondReqheaders = {
   'accept-language': 'en-GB,en;q=0.9,en-US;q=0.8'
 }  
 
+#Null payload for GET requests (because for some reason the function still needs one)
 Nullpayload={}
 
 #Establishes client connection
@@ -77,6 +86,7 @@ client = discord.Client()
 @client.event
 async def on_ready():  
     print(f'{client.user.name} has connected to Discord!')
+
 
 #Event declaration for a message being received ('main' function)
 @client.event
@@ -94,9 +104,10 @@ async def on_message(message):
             PhraseRemovedString = message.content.replace(CharacterObject['Phrase'],'')
            
             #Checking what "Function is being asked for" and calling the relevant function/ breaking after it to stop the loop's itterations (I'm too lazy for a simple while loop, sue me.)
-            #1. Making a request to 15.ai using the stripped message content
-            #2. Using the stripped message content to make a request to wikipedia's API and then using the extract from that in the 15.ai request(s) 
-            #3. Using the stripped message content to make a request to a custom API specified within the CustomAPIConfig.json file and using the parse response from that within a request to 15.ai
+            #0. Making a request to 15.ai using the stripped message content
+            #1. Using the stripped message content to make a request to wikipedia's API and then using the extract from that in the 15.ai request(s) 
+            #2. Using the stripped message content to make a request to a custom API specified within the CustomAPIConfig.json file and using the parse response from that within a request to 15.ai
+            #3. Making a request to 15.ai using the stripped message content in a voice call
             if CharacterObject['Function'] == '0':
                 asyncio.create_task(HandleMessageLength(PhraseRemovedString,ObjectIndex,message))
                 break
@@ -112,15 +123,15 @@ async def on_message(message):
         #Incrementing the characte object index
         ObjectIndex = ObjectIndex + 1
 
+    #Checking if the message has either of the strings within it
     if "Hey bot join our voice chat" in message.content or "bot join vc" in message.content:
-        #for x in client.voice_clients:
-        #    if x.guild == message.guild:
-        #        return await x.connect()
+        #Getting the current voice channel the user is in and joining it 
         channel = message.author.voice.channel
         await channel.connect()
 
     #https://stackoverflow.com/questions/50651305/message-object-has-no-attribute-server
     if "Hey bot, leave our voice chat" in message.content or "bot leave vc" in message.content:
+        #Getting the current voice channel the user is in and leaving it
         for x in client.voice_clients:
             if x.guild == message.guild:
                 return await x.disconnect()
@@ -137,8 +148,7 @@ async def Make15APIRequest(MessageText,CharacterIndex,message,RequestTries,FileN
     print(data)
     try:
         #Constructing the request, passing in the headers and the data 
-        firstresponse = requests.post('https://api.15.ai/app/getAudioFile5', headers=FirstRequestHeaders, data=data)       
-        #print('response recevied!')            
+        firstresponse = requests.post('https://api.15.ai/app/getAudioFile5', headers=FirstRequestHeaders, data=data)              
         #Checking if the api responds with a 500/ server error message
         if firstresponse.status_code != 200:
             print('15.ai response error!')
@@ -172,22 +182,22 @@ async def Make15APIRequest(MessageText,CharacterIndex,message,RequestTries,FileN
                 #Saving the response as a wav file
                 file.write(secondresponse.content)
             
+                #Setting the name of the bot depending on the character chosen
+                #await client.user.edit(username=Character_info['Phrases'][CharacterIndex]['Character'])
+
                 #Text to be entered with file \/  file being specified \/
-                await message.channel.send('Test',file=discord.File(FileName))
+                await message.channel.send('Test',file=discord.File(FileName))             
 
                 #Debug checking status code of response (403 may mean there will need to be a change to the request)
                 #await message.channel.send(response.status_code)
-
-            #Removing the file once it has been posted
-            #os.remove("test1.wav")
-
+        
+            #Removing the file after use
             os.remove(FileName)
 
-            #print("File Removed!")
-            #break
     except Exception as inst:
         print('15.ai response error! (Respone error)')
-        #print(response.text)
+        print(inst)
+
         #Checking if 3 bad responses have been made and erroring as such
         if RequestTries >= 3:
             await message.channel.send('Something went wrong with making a call to 15.ai!')
@@ -209,12 +219,12 @@ async def VC_Make15APIRequest(MessageText,CharacterIndex,message,RequestTries,Fi
     print(data)
     try:
         #Constructing the request, passing in the headers and the data 
-        firstresponse = requests.post('https://api.15.ai/app/getAudioFile5', headers=FirstRequestHeaders, data=data)       
-        #print('response recevied!')            
+        firstresponse = requests.post('https://api.15.ai/app/getAudioFile5', headers=FirstRequestHeaders, data=data)
+        
         #Checking if the api responds with a 500/ server error message
         if firstresponse.status_code != 200:
             print('15.ai response error!')
-            #print(response.text)
+
             #Checking if 3 bad responses have been made and erroring as such
             if RequestTries >= 3:
                 await message.channel.send('Something went wrong with making the first call to 15.ai!')
@@ -243,19 +253,21 @@ async def VC_Make15APIRequest(MessageText,CharacterIndex,message,RequestTries,Fi
             with open(FileName, 'wb') as file:
                 #Saving the response as a wav file
                 file.write(secondresponse.content)
-            
-                #Text to be entered with file \/  file being specified \/
-                #await message.channel.send('Test',file=discord.File(FileName))
 
-                for x in client.voice_clients:
-                    if x.guild == message.guild:
-                        x.play(discord.FFmpegPCMAudio(executable=Token_info['ffmpeg_location'], source=FileName))                        
+                #Getting the voice clients currently in use
+                for vc in client.voice_clients:
+                    #Checking if the voice client channel is the same as the users' current voice channel
+                    if vc.guild == message.guild:
+                        #Playing the wav file via ffmpeg in the voice channel
+                        vc.play(discord.FFmpegPCMAudio(executable=Token_info['ffmpeg_location'], source=FileName))    
+
+            await asyncio.sleep(10)  
+            os.remove(FileName)
     
     except Exception as inst:
         print('15.ai response error! (Respone error)')
-        #print(response.text)
-        #Checking if 3 bad responses have been made and erroring as such
 
+        #Checking if 3 bad responses have been made and erroring as such
         print(inst)
         if RequestTries >= 3:
             await message.channel.send('Something went wrong with making a call to 15.ai!')
@@ -264,7 +276,7 @@ async def VC_Make15APIRequest(MessageText,CharacterIndex,message,RequestTries,Fi
             await asyncio.sleep(10) #https://stackoverflow.com/questions/42279675/synchronous-sleep-into-asyncio-coroutine#:~:text=then%20your_sync_function%20is%20running%20in%20a%20separate%20thread,,into%20the%20janus%20library.%20More%20tips%20on%20this:
             TempRequestTries = RequestTries + 1
             print(TempRequestTries)
-            #asyncio.create_task(VC_Make15APIRequest(MessageText,CharacterIndex,message,TempRequestTries,FileName))          
+            asyncio.create_task(VC_Make15APIRequest(MessageText,CharacterIndex,message,TempRequestTries,FileName))          
 
 #Function that makes a GET request to the Wikipedia API and then using the parsed text within a POST request to 15.ai
 async def MakeWikiRequest(GivenPrompt,message,ObjectIndex):
@@ -281,7 +293,6 @@ async def MakeWikiRequest(GivenPrompt,message,ObjectIndex):
         #Parsing the JSON returned and either outputting an error "if nothing comes back for that search" or using the parsed string within a call to 15.ai
         try:
             WikiExtract = WikiRequest.json()['extract']
-            #print(WikiRequest.json()['extract'])
             asyncio.create_task(HandleMessageLength(WikiExtract,ObjectIndex,message))
         except Exception as inst:
             print(inst)
@@ -290,7 +301,6 @@ async def MakeWikiRequest(GivenPrompt,message,ObjectIndex):
 #Function that handles how many requests to the 15.ai api need to be made
 async def HandleMessageLength(GivenText,ObjectIndex,message):
     GivenText = await CleanStrings(GivenText)
-    #print(GivenText)
     current_date = datetime.datetime.now()    
     FileName = Token_info['SingleAudiofilepath'] + 'TempAudio' + str(current_date.microsecond) + '.wav'   
     #Checking if the text is above 200 characters (15.ai character limit)
@@ -354,7 +364,6 @@ async def VC_HandleMessageLength(GivenText,ObjectIndex,message):
         stringindex = 0
         for Substring in out:
             asyncio.create_task(VC_Make15APIRequest(Substring,ObjectIndex,message,0,filenames[stringindex]))
-            #print(filenames[stringindex])
             stringindex = stringindex + 1
 
 #Function to handle what custom API should be being used and what API call should be used
@@ -379,7 +388,7 @@ async def HandleCustomAPIInfo(GivenText,CustomAPIReference,message,ObjectIndex):
                 asyncio.create_task(MakeCustomGETAPICall(message,CustomAPIIndex,TempAPICall,ObjectIndex))
             else:
                 #Making Post requests seem to be a little more tricky. Will add soon (hopefully)
-                print('b')
+                print('POST Attempt')
         #Incrementing index
         CustomAPIIndex = CustomAPIIndex + 1
 
@@ -389,7 +398,7 @@ async def MakeCustomGETAPICall(message,CustomAPIIndex,APICall,ObjectIndex):
     CustomAPIRequest = requests.get(APICall)
     if CustomAPIRequest.status_code != 200:
         #Showing "error" in console/ letting the user know that there was an error
-        print('Error!')       
+        print('Error!')
         await message.channel.send('Something went wrong with making a call to the Custom API!')
     else:          
         #Checking the type of output (XML/ JSON)
@@ -408,16 +417,16 @@ async def MakeCustomGETAPICall(message,CustomAPIIndex,APICall,ObjectIndex):
             try:
                 #Using etree to parse the XML using (https://stackoverflow.com/a/52506999)
                 from lxml.etree import fromstring
-                string = CustomAPIRequest.text
-                response = fromstring(string.encode('utf-8'))
-                elm = response.xpath(CustomAPI_info['APIs'][CustomAPIIndex]['XMLPath']).pop()
-                CustomAPIExtract = elm.text                
+                xmlstring = CustomAPIRequest.text
+                response = fromstring(xmlstring.encode('utf-8'))
+                xmlextract = response.xpath(CustomAPI_info['APIs'][CustomAPIIndex]['XMLPath']).pop()
+                CustomAPIExtract = xmlextract.text                
                 #Calling the fucntion to use the parsed string in a request to 15.ai
                 asyncio.create_task(HandleMessageLength(CustomAPIExtract,ObjectIndex,message))
             except Exception as inst:
                 #Showing error in console/ letting the user know that there was an error
                 print(inst)
-                await message.channel.send('Something went wrong with parsing the Custom API!')           
+                await message.channel.send('Something went wrong with parsing the Custom API!')
 
 #Function to remove non ASCII characters, special characters and converts numbers to words
 async def CleanStrings(string_nonASCII):
